@@ -85,6 +85,7 @@ const base = "/";
 const nav = [
   { text: "工程化", link: "/engineering/" },
   { text: "Webpack", link: "/webpack/" },
+  { text: "深入浅出Webpack", link: "/webpack-explain/" },
   {
     text: "Babel",
     link: "/babel/",
@@ -93,7 +94,7 @@ const nav = [
     text: "微前端",
     link: "/micro-front/",
   },
-  { text: "Home", link: "https://qa.qdzhou.cn" },
+  { text: "Home", link: "https://link.qdzhou.cn" },
 ];
 
 module.exports = {
@@ -126,9 +127,22 @@ module.exports = {
         updatePopup: true,
       },
     ],
+    [
+      "vuepress-plugin-right-anchor",
+      {
+        showDepth: 3,
+        ignore: ["/", "/api/"],
+        expand: {
+          trigger: "click",
+          clickModeDefaultOpen: true,
+        },
+        customClass: "your-customClass",
+        disableGlobalUI: false,
+      },
+    ],
   ],
   themeConfig: {
-    sidebarDepth: 2,
+    sidebarDepth: 0,
     searchMaxSuggestions: 10,
     lastUpdated: "上次更新",
     editLinks: true,
