@@ -1,0 +1,27 @@
+{
+  "name": "qd-blog",
+  "version": "0.0.1",
+  "description": "qd-blog",
+  "author": "qd",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vuepress dev docs --open",
+    "build": "vuepress build docs",
+    "deploy": "bash deploy.sh"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "@vuepress/plugin-medium-zoom": "^1.8.2",
+    "vuepress": "^1.8.2",
+    "vuepress-plugin-code-copy": "^1.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZQD1224/engineering.git"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "homepage": "https://engineering.qdzhou.cn"
+}
