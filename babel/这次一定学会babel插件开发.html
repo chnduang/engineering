@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>这次一定学会babel插件开发！ | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/24.d1ded971.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link router-link-active">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link router-link-active">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/babel/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><a href="/babel/这次一定学会babel插件开发.html" class="active sidebar-link">这次一定学会babel插件开发！</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="这次一定学会babel插件开发"><a href="#这次一定学会babel插件开发" class="header-anchor">#</a> 这次一定学会babel插件开发！</h1> <blockquote><p><a href="https://mp.weixin.qq.com/s/7NVq_P7SC2YOHYs_TjAbQQ" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/7NVq_P7SC2YOHYs_TjAbQQ<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h1 id="前置知识"><a href="#前置知识" class="header-anchor">#</a> 前置知识</h1> <h2 id="什么是ast"><a href="#什么是ast" class="header-anchor">#</a> 什么是AST</h2> <p>学习babel, 必备知识就是理解AST。</p> <p><strong>那什么是AST呢？</strong></p> <p>先来看下维基百科的解释:</p> <blockquote><p>在计算机科学中，抽象语法树（Abstract Syntax Tree，AST），或简称语法树（Syntax tree），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构</p></blockquote> <p>&quot;<code>源代码语法结构的一种抽象表示</code>&quot; 这几个字要划重点，是我们理解AST的关键，说人话就是按照某种约定好的规范，以树形的数据结构把我们的代码描述出来，让js引擎和转译器能够理解。</p> <p>举个例子：就好比现在框架会利用<code>虚拟dom</code>这种方式把<code>真实dom</code>结构描述出来再进行操作一样，而对于更底层的代码来说，AST就是用来描述代码的好工具。</p> <p>当然AST不是JS特有的，每个语言的代码都能转换成对应的AST, 并且AST结构的规范也有很多， js里所使用的规范大部分是 <strong>estree</strong>[1] ，当然这个只做简单了解即可。</p> <h2 id="ast到底长啥样"><a href="#ast到底长啥样" class="header-anchor">#</a> AST到底长啥样</h2> <p>了解了AST的基本概念， 那AST到底长啥样呢？</p> <p><strong>astexplorer.net</strong>[2]这个网站可以在线生成AST, 我们可以在里面进行尝试生成AST，用来学习一下结构</p> <h2 id="babel的处理过程"><a href="#babel的处理过程" class="header-anchor">#</a> babel的处理过程</h2> <p><em>问：把冰箱塞进大象有几个阶段？</em></p> <p><em>打开冰箱 -&gt; 塞进大象 -&gt; 关上冰箱</em></p> <p>babel也是如此，babel利用AST的方式对代码进行编译，首先自然是需要将代码变为AST，再对AST进行处理，处理完以后呢再将AST 转换回来</p> <p>也就是如下的流程</p> <blockquote><p><em>code转换为AST -&gt; 处理AST -&gt; AST转换为code</em></p></blockquote> <p>然后我们再给它们一个专业一点的名字</p> <blockquote><p><em>解析 -&gt; 转换 -&gt; 生成</em></p></blockquote> <h3 id="解析-parse"><a href="#解析-parse" class="header-anchor">#</a> 解析（parse）</h3> <blockquote><p>通过 parser 把源码转成抽象语法树（AST）</p></blockquote> <p>这个阶段的主要任务就是将code转为AST, 其中会经过两个阶段，分别是词法分析和语法分析。当parse阶段开始时，首先会进行文档扫描，并在此期间进行词法分析。那怎么理解此法分析呢 如果把我们所写的一段code比喻成句子，词法分析所做的事情就是在拆分这个句子。如同 <code>“我正在吃饭”</code> 这句话，可以被拆解为<code>“我”</code>、<code>“正在”</code>、<code>“吃饭”</code>一样, code也是如此。比如: const a = '1' 会被拆解为一个个最细粒度的单词(tokon): 'const', 'a', '=', '1' 这就是词法分析阶段所做的事情。</p> <p>词法分析结束后，将分析所得到的 tokens 交给语法分析， 语法分析阶段的任务就是根据 tokens 生成 AST。它会对 tokens 进行遍历，最终按照特定的结构生成一个 tree 这个 tree 就是 AST。</p> <p>如下图, 可以看到上面语句的到的结构，我们找到了几个重要信息, 最外层是一个<code>VariableDeclaration</code>意思是变量声明，所使用的类型是 <code>const</code>, 字段<code>declarations</code>内还有一个 <code>VariableDeclarator</code>[变量声明符] 对象，找到了 <code>a</code>, <code>1</code> 两个关键字。<img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugib50rqaC7ZLZV44JEyzuibOhXERicJmToQdibeeyHFyjjOxiaLUqWyibDvkg/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>除了这些关键字以为，还可以找到例如行号等等的重要信息，这里就不一一展开阐述。总之，这就是我们最终得到的 AST 模样。</p> <p>那问题来了，babel里该如何将code 转为 AST 呢？在这个阶段我们会用到 babel 提供的解析器 @babel/parser，之前叫 Babylon，它并非由babel团队自己开发的，而是基于fork的 acorn 项目。</p> <p>它为我们提供了将code转换为AST的方法，基本用法如下:</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugjuaIN6qQCmpiapNj7GtiaLd5w6FXNWzFibKBibMN2ibdWuYhDSzFZ8sNKZw/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>更多信息可以访问官方文档查看**@babel/parser**[3]</p> <h3 id="转换-transform"><a href="#转换-transform" class="header-anchor">#</a> 转换（transform）</h3> <p>在 parse 阶段后，我们已经成功得到了AST。babel接收到 AST后，会使用 @babel/traverse 对其进行深度优先遍历，插件会在这个阶段被触发，以vistor 函数的形式访问每种不同类型的AST节点。以上面代码为例, 我们可以编写 <code>VariableDeclaration</code> 函数对 <code>VariableDeclaration</code>节点进行访问，每当遇到该类型节点时都会触发该方法。如下：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibuga0nLW9ibEFl8FoebcL7lvP3k9MptpiafcfymVJCEkZZYBB1XicuicqzlYA/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>该方法接受两个参数，</p> <h4 id="path"><a href="#path" class="header-anchor">#</a> path</h4> <p>path为当前访问的路径, 并且包含了节点的信息、父节点信息以及对节点操作许多方法。可以利用这些方法对 ATS 进行添加、更新、移动和删除等等。</p> <h4 id="state"><a href="#state" class="header-anchor">#</a> state</h4> <p>state包含了当前plugin的信息和参数信息等等，并且也可以用来自定义在节点之间传递数据。</p> <h3 id="生成-generate"><a href="#生成-generate" class="header-anchor">#</a> 生成（generate）</h3> <p>generate：把转换后的 AST 打印成目标代码，并生成 sourcemap</p> <p>这个阶段就比较简单了， 在 transform 阶段处理 AST 结束后，该阶段的任务就是将 AST 转换回 code, 在此期间会对 AST 进行深度优先遍历，根据节点所包含的信息生成对应的代码，并且会生成对应的sourcemap。</p> <h2 id="经典案例尝试"><a href="#经典案例尝试" class="header-anchor">#</a> 经典案例尝试</h2> <p>俗话说，最好的学习就是动手，我们来一起尝试一个简单的经典案例：将上面案例中的 es6 的 <code>const</code> 转变为 es5 的 <code>var</code></p> <h3 id="第一步-转换为-ast"><a href="#第一步-转换为-ast" class="header-anchor">#</a> 第一步: 转换为 AST</h3> <p>使用 <code>@babel/parser</code> 生成AST
+比较简单，跟上面的案例是一样的， 此时我们ast变量中就是转换后的 AST</p> <div class="language- extra-class"><pre class="language-text"><code>const parser = require('@babel/parser');
+const ast = parser.parse('const a = 1');
+复制代码
+</code></pre></div><h3 id="第二步-处理-ast"><a href="#第二步-处理-ast" class="header-anchor">#</a> 第二步：处理 AST</h3> <p>使用 <code>@babel/traverse</code> 处理 AST</p> <p>在这个阶段我们通过分析所生成的 AST 结构，确定了在 <code>VariableDeclaration</code> 中由 <code>kind</code> 字段控制 <code>const</code>，所以我们是不是可以尝试着把 <code>kind</code> 改写成我们想要的 <code>var</code> ？既然如此，我们来尝试一下</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugib50rqaC7ZLZV44JEyzuibOhXERicJmToQdibeeyHFyjjOxiaLUqWyibDvkg/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <div class="language- extra-class"><pre class="language-text"><code>const parser = require('@babel/parser');
+const traverse = require('@babel/traverse').default
+
+const ast = parser.parse('const a = 1');
+traverse(ast, {
+    VariableDeclaration(path, state) {
+   // 通过 path.node 访问实际的 AST 节点
+      path.node.kind = 'var'
+    }
+});
+复制代码
+</code></pre></div><p>好，此时我们凭借着猜想修改了 <code>kind</code> ，将其改写为了 <code>var</code>, 但是我们还不能知道实际是否有效，所以我们需要将其再转换回 code 看看效果。</p> <h3 id="第三步-生成-code"><a href="#第三步-生成-code" class="header-anchor">#</a> 第三步：生成 code</h3> <p>使用 <code>@babel/generator</code> 处理 AST</p> <div class="language- extra-class"><pre class="language-text"><code>const parser = require('@babel/parser');
+const traverse = require('@babel/traverse').default
+const generate = require('@babel/generator').default
+
+const ast = parser.parse('const a = 1');
+traverse(ast, {
+    VariableDeclaration(path, state) {
+      path.node.kind = 'var'
+    }
+});
+
+// 将处理好的 AST 放入 generate
+const transformedCode = generate(ast).code
+console.log(transformedCode)
+复制代码
+</code></pre></div><p>我们再来看看效果：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibug3vTAZzDfh3R1icWN2wNazOPiciafY4Px5C2yWe0cYtZ6puvakI4Xa3wicg/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>执行完成，成功了，是我们想要的效果～</p> <h2 id="如何开发插件"><a href="#如何开发插件" class="header-anchor">#</a> 如何开发插件</h2> <p>通过上面这个经典案例， 大概了解了 babel 的使用，但我们平时的插件该如何去写呢？</p> <p>实际上插件的开发和上面的基本思路是一样的， 只是作为插件我们只需要关注这其中的 <code>转换</code> 阶段</p> <p>我们的插件需要导出一个函数/对象， 如果是函数则需要返回一个对象, 我们只需要在改对象的 visitor 内做同样的事情即可，并且函数会接受几个参数， api继承了babel提供的一系列方法， options 是我们使用插件时所传递的参数，dirname 为处理时期的文件路径。</p> <p>以上面的案例改造为如下：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+ visitor: {
+     VariableDeclaration(path, state) {
+          path.node.kind = 'var'
+        }
+ }
+}
+// 或是函数形式
+module.exports = (api, options, dirname) =&gt; {
+ return {
+  visitor: {
+          VariableDeclaration(path, state) {
+            path.node.kind = 'var'
+          }
+  }
+ }
+}
+复制代码
+</code></pre></div><h1 id="插件编写"><a href="#插件编写" class="header-anchor">#</a> 插件编写</h1> <p>在有前置知识的基础上，我们来一步步的讲解开发一个 babel 插件。首先我们明确接下来要开发的插件的核心需求:</p> <ul><li>可自动插入某个函数并调用。</li> <li>自动导入插入函数的相关依赖。</li> <li>可以通过注释指定需要插入的函数和需要被插入的函数，若未用注释指定则默认插入位置在第一列。</li></ul> <p>基本效果展示如下：</p> <p>处理前</p> <div class="language- extra-class"><pre class="language-text"><code>// log 声明需要被插入并被调用的方法
+// @inject:log
+function fn() {
+ console.log(1)
+ // 用 @inject:code指定插入行
+ // @inject:code
+ console.log(2)
+}
+复制代码
+</code></pre></div><p>处理后</p> <div class="language- extra-class"><pre class="language-text"><code>// 导入包 xxx 之后要在插件参数内提供配置
+import log from 'xxx'
+function fn() {
+ console.log(1)
+ log()
+ console.log(2)
+}
+复制代码
+</code></pre></div><h2 id="思路整理"><a href="#思路整理" class="header-anchor">#</a> 思路整理</h2> <p>了解了大概的需求，先不着急动手，我们要先想想要怎么开始做，已经设想一下过程中需要处理的问题。</p> <ol><li>找到带有 @inject 标记的函数，再查看其内部是否有 @inject:code 的位置标记。</li> <li>导入所有插入函数的相应包。</li> <li>匹配到了标记，要做的就是插入函数，同时我们还要需要处理各种情况下的函数，如：对象方法、iife、箭头函数等等情况。</li></ol> <h2 id="设计插件参数"><a href="#设计插件参数" class="header-anchor">#</a> 设计插件参数</h2> <p>为了提升插件的灵活度，我们需要设计一个较为合适的参数规则。插件参数接受一个对象。</p> <ul><li><p>key 作为插入函数的函数名。</p></li> <li><p>kind 表示导入形式。有三种导入方式 named 、 default、 namespaced, 此设计参考 <strong>babel-helper-module-imports</strong>[4]</p></li> <li><ul><li>named 对应 <code>import { a } from &quot;b&quot;</code> 形式</li> <li>default 对应 <code>import a from &quot;b&quot;</code> 形式</li> <li>namespaced 对应 <code>import * as a from &quot;b&quot;</code> 形式</li></ul></li> <li><p>require 为依赖的包名</p></li></ul> <p>比如，我需要插入 <code>log</code> 方法，它需要从 <code>log4js</code> 这个包里导入，并且是以 <code>named</code> 形式， 参数便为如下形式。</p> <div class="language- extra-class"><pre class="language-text"><code>// babel.config.js
+module.exports = {
+  plugins: [
+ // 填写我们的plugin的js 文件地址
+    ['./babel-plugin-myplugin.js', {
+      log: {
+        // 导入方式为 named
+        kind: 'named',
+        require: 'log4js'
+      }
+    }]
+  ]
+}
+复制代码
+</code></pre></div><h2 id="起步"><a href="#起步" class="header-anchor">#</a> 起步</h2> <p>好，知道了具体要做什么事情并且设计好了参数的规则， 我们就可以开始动手了。</p> <p>首先我们进入 <strong>astexplorer.net/</strong>[5] 将待处理的 code 生成 AST 方便我们梳理结构， 然后我们在进行具体编码</p> <p>首先是函数声明语句，我们分析一下其 AST 结构以及该如何处理， 来看一下demo</p> <div class="language- extra-class"><pre class="language-text"><code>// @inject:log
+function fn() {
+ console.log('fn')
+}
+复制代码
+</code></pre></div><p>其生成的 AST 结构如下，可以看到有比较关键的两个属性：</p> <ul><li>leadingComments 表示前方注释，可以看到内部有一个元素，就是我们demo里所写的 <code>@inject:log</code></li> <li>body 是函数体的具体内容， demo 所写的 <code>console.log('fn')</code> 此时就在里面，我们等会代码的插入操作就是需要操作它</li></ul> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugia8icKDjev4gVmgT5cKo8zykP7erutLmJ5M41gVbDXqWTopl5vZSpqzg/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>好，知道了可以通过 <code>leadingComments</code> 来获知函数是否需要被插入, 对 <code>body</code> 操作可以实现我们的代码插入需求。。</p> <p>首先我们得先找到 <code>FunctionDeclaration</code> 这一层，因为只有这一层才有 <code>leadingComments</code>属性， 然后我们需要遍历它，匹配出需要插入的函数。再将匹配到的函数插入至 body 只中， 但我们这里需要注意可插入的body 所在层级， <code>FunctionDeclaration</code> 内的body 他不是一个数组而是 <code>BlockStatement</code>，这表示函数的函数体，并且它也有body , 所以我们实际操作位置就在这个<code>BlockStatement</code> 的 body 内</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugENtoRoQ5RYUiaBHqXjVUFickFRapjT74x9ma0BjWowjM7kgIqHaRu4yA/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>代码如下：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = (api, options, dirname) =&gt; {
+
+  return {
+    visitor: {
+   // 匹配函数声明节点
+      FunctionDeclaration(path, state) {
+        // path.get('body') 相当于 path.node.body
+        const pathBody = path.get('body')
+        if(path.node.leadingComments) {
+          // 过滤出所有匹配 @inject:xxx 字符 的注释
+          const leadingComments = path.node.leadingComments.filter(comment =&gt; /\@inject:(\w+)/.test(comment.value) )
+          leadingComments.forEach(comment =&gt; {
+            const injectTypeMatchRes = comment.value.match(/\@inject:(\w+)/)
+            // 匹配成功
+            if( injectTypeMatchRes ) {
+              // 匹配结果的第一个为 @inject:xxx 中的 xxx ,  我们将它取出来
+              const injectType = injectTypeMatchRes[1]
+              // 获取插件参数的 key， 看xxx 是否在插件的参数中声明过
+              const sourceModuleList = Object.keys(options)
+              if( sourceModuleList.includes(injectType) ) {
+                // 搜索body 内部是否有 @code:xxx 注释
+                // 因为无法直接访问到 comment，所以需要访问 body内每个 AST 节点的 leadingComments 属性
+                const codeIndex = pathBody.node.body.findIndex(block =&gt; block.leadingComments &amp;&amp; block.leadingComments.some(comment =&gt; new RegExp(`@code:\s?${injectType}`).test(comment.value) ))
+                // 未声明则默认插入位置为第一行
+                if( codeIndex === -1 ) {
+                  // 操作`BlockStatement` 的 body
+         pathBody.node.body.unshift(api.template.statement(`${state.options[injectType].identifierName}()`)());
+                }else {
+                  pathBody.node.body.splice(codeIndex, 0, api.template.statement(`${state.options[injectType].identifierName}()`)());
+                }
+              }
+            }
+          })
+        }
+      }
+  }
+})
+
+复制代码
+</code></pre></div><p>编写完后我们看看结果， <code>log</code>成功被插入了， 因为我们没有使用 <code>@code:log</code>所以就默认插入在了第一行<img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibug6SyBINw7c0t3x69IL7RiccX4lk9YlYbRAVM1iaL14eGhdnuF8HibtgOyg/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>然后我们试试使用 <code>@code:log</code> 标识符, 我们将 demo 的代码改为如下</p> <div class="language- extra-class"><pre class="language-text"><code>// @inject:log
+function fn() {
+ console.log('fn')
+ // @code:log
+}
+复制代码
+</code></pre></div><p>再次运行代码查看结果， 确实是在 <code>@code:log</code> 位置成功插入了<img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugPCH36g1xSXmnrBgz3X3Rez3sDicycwS7ZOVCmbeUic8iaqmiams0eFxX4w/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>处理完了我们第一个案例函数声明，这时候可能有人会问了， 那箭头函数这种没有函数体的你怎么办, 比如：</p> <div class="language- extra-class"><pre class="language-text"><code>// @inject:log
+() =&gt; true
+复制代码
+</code></pre></div><p>这有问题吗？没有问题！</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugv1tLIyPc6939SDtPN0GPIrEtYAF8a4ibQrAbUuechtLxAq0FZVkTVcQ/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>没有函数体我们给它一个函数体就是了，怎么做呢？</p> <p>首先我们还是先学会来分析一下 AST 结构， 首先看到最外层其实是一个<code>ExpressionStatement</code>表达式声明，然后其内部才是 <code>ArrowFunctionExpression</code>箭头函数表达式, 可见跟我们之前的函数声明生成的结构是大有不同， 其实我们不用被这么多层结构迷了眼睛，我们只需要找对我们有用的信息就可以了，一句话：<strong>哪一层有 leadingComments 我们就找哪一层</strong>。这里的 <code>leadingComments</code> 在 <code>ExpressionStatement</code> 上，所以我们找它就行</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugDWsMePjdTb4DQIt1M5MJ2A9V762ZLibrncTVjuu4O4Bt2TRELUkYSEw/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>分析完了结构，那怎么判断是否有函数体呢？还记得上面处理函数声明时，我们在 body 中看到的 <code>BlockStatement</code> 吗，而你看到我们箭头函数的 body 却是 <code>BooleanLiteral</code>。所以，我们可以判断其 body 类型来得知是否有函数体 具体方法可以使用babel 提供的类型判断方法 <code>path.isBlockStatement()</code> 来区分是否有函数体。</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = (api, options, dirname) =&gt; {
+
+  return {
+    visitor: {
+      ExpressionStatement(path, state) {
+        // 访问到 ArrowFunctionExpression
+        const expression = path.get('expression')
+        const pathBody = expression.get('body')
+        if(path.node.leadingComments) {
+          // 正则匹配 comment 是否有 @inject:xxx 字符
+          const leadingComments = path.node.leadingComments.filter(comment =&gt; /\@inject:(\w+)/.test(comment.value) )
+          
+          leadingComments.forEach(comment =&gt; {
+            const injectTypeMatchRes = comment.value.match(/\@inject:(\w+)/)
+            // 匹配成功
+            if( injectTypeMatchRes ) {
+              // 匹配结果的第一个为 @inject:xxx 中的 xxx ,  我们将它取出来
+              const injectType = injectTypeMatchRes[1]
+              // 获取插件参数的 key， 看xxx 是否在插件的参数中声明过
+
+              const sourceModuleList = Object.keys(options)
+              if( sourceModuleList.includes(injectType) ) {
+                // 判断是否有函数体
+                if (pathBody.isBlockStatement()) {
+                  // 搜索body 内部是否有 @code:xxx 注释
+                  // 因为无法直接访问到 comment，所以需要访问 body内每个 AST 节点的 leadingComments 属性
+                  const codeIndex = pathBody.node.body.findIndex(block =&gt; block.leadingComments &amp;&amp; block.leadingComments.some(comment =&gt; new RegExp(`@code:\s?${injectType}`).test(comment.value) ))
+                  // 未声明则默认插入位置为第一行
+                  if( codeIndex === -1 ) {
+                    pathBody.node.body.unshift(api.template.statement(`${injectType}()`)());
+                  }else {
+                    pathBody.node.body.splice(codeIndex, 0, api.template.statement(`${injectType}()`)());
+                  }
+                }else {
+                  // 无函数体情况
+                  // 使用 ast 提供的 `@babel/template`  api ， 用代码段生成 ast
+                  const ast = api.template.statement(`{${injectType}();return BODY;}`)({BODY: pathBody.node});
+     // 替换原本的body
+                  pathBody.replaceWith(ast);
+                }
+              }
+            }
+          })
+        }
+      }
+  }
+}
+}
+
+复制代码
+</code></pre></div><p>可以看到除了新增的函数体判断，生成函数体插入代码再用新的 AST 替换原本的节点，除掉这些之外，大体上的逻辑跟之前的函数声明的处理过程没有区别。</p> <blockquote><p>生成 AST 所使用的 <code>@babel/template</code> 的 API 相关用法可以查看文档 <strong>@babel/template</strong>[6]</p></blockquote> <p>针对不同情况的下的函数大体上相同，总结就是：</p> <p><em>分析 AST 找到 <code>leadingComments</code> 所在节点 -&gt; 找到可插入的 body 所在节点 -&gt; 编写插入逻辑</em></p> <p>实际处理的情况还有很多，如：对象属性、iife、函数表达式等很多， 处理思路都是一样的，这里就不过重复阐述。我会将插件完整代码发在文章底部。</p> <h2 id="自动引入"><a href="#自动引入" class="header-anchor">#</a> 自动引入</h2> <p>第一条完成了，那需求的第二条，我们使用的包如何自动引入呢， 如上面案例使用的 <code>log4js</code>， 那么我们处理后的代码就应该自动加上：</p> <div class="language- extra-class"><pre class="language-text"><code>import { log } from 'log4js'
+复制代码
+</code></pre></div><p>此时，我们可以思考一下，我们需要处理以下两种情况</p> <ol><li>log 已经被导入过了</li> <li>log 变量名已经被占用</li></ol> <p>针对 问题1 我们需要先检索一下是否有导入过 <code>log4js</code> ，并且以 <code>named</code> 的形式导入了 <code>log</code> 针对 问题2 我们需要给 <code>log</code> 一个唯一的别名， 并且要保证在后续的代码插入中也使用这个别名。所以这就要求了我们要在文件的一开始就处理完成自动引入的逻辑。</p> <p>有了大概的思路，但是我们如何提前完成自动引入逻辑呢。抱着疑问，我们再来看看 AST 的结构。可以看到 AST 最外层是 <code>File</code> 节点, 他有一个 <code>comments</code> 属性，它包含了当前文件里所有的注释，有了这个我们就可以解析出文件里需要插入的函数，并提前进行引入。我们再往下看， 内部是一个 <code>Program</code>, 我们将首先访问它， 因为它会在其他类型的节点之前被调用，所以我们要在此阶段实现自动引入逻辑。</p> <blockquote><p>小知识：babel 提供了 path.traverse 方法，可以用来同步访问处理当前节点下的子节点。</p></blockquote> <p>如图：<img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibugiax1iamhAXc81ia3icqsegrCwBWNDibAk9q9WJv6UWvXB3jU4m7wGfaxUoA/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>代码如下:</p> <div class="language- extra-class"><pre class="language-text"><code>const importModule = require('@babel/helper-module-imports');
+
+// ......
+{
+    visitor: {
+      Program(path, state) {
+        // 拷贝一份options 挂在 state 上,  原本的 options 不能操作
+        state.options = JSON.parse(JSON.stringify(options))
+
+        path.traverse({
+          // 首先访问原有的 import 节点， 检测 log 是否已经被导入过
+          ImportDeclaration (curPath) {
+            const requirePath = curPath.get('source').node.value;
+            // 遍历options
+            Object.keys(state.options).forEach(key =&gt; {
+              const option = state.options[key]
+              // 判断包相同
+              if( option.require === requirePath ) {
+                const specifiers = curPath.get('specifiers')
+                specifiers.forEach(specifier =&gt; {
+
+                  // 如果是默认type导入
+                  if( option.kind === 'default' ) {
+                    // 判断导入类型
+                    if( specifier.isImportDefaultSpecifier() ) {
+                      // 找到已有 default 类型的引入
+                      if( specifier.node.imported.name === key ) {
+                        // 挂到 identifierName 以供后续调用获取
+                        option.identifierName = specifier.get('local').toString()
+                      }
+                    }
+                  }
+
+                    // 如果是 named 形式的导入
+                  if( option.kind === 'named' ) {
+                    // 
+                    if( specifier.isImportSpecifier() ) {
+                      // 找到已有 default 类型的引入
+                      if( specifier.node.imported.name === key ) {
+                        option.identifierName = specifier.get('local').toString()
+                      }
+                    }
+                  }
+                })
+              }
+            })
+          }
+        });
+
+
+        // 处理未被引入的包
+        Object.keys(state.options).forEach(key =&gt; {
+          const option = state.options[key]
+          // 需要require 并且未找到 identifierName 字段
+          if( option.require &amp;&amp; !option.identifierName )  {
+            
+            // default形式
+            if( option.kind === 'default' ) {
+              // 增加 default 导入
+              // 生成一个随机变量名, 大致上是这样 _log2
+              option.identifierName = importModule.addDefault(path, option.require, {
+                nameHint: path.scope.generateUid(key)
+              }).name;
+            }
+
+            // named形式
+            if( option.kind === 'named' ) {
+              option.identifierName = importModule.addNamed(path, key, option.require, {
+                nameHint: path.scope.generateUid(key)
+              }).name
+            }
+          }
+
+          // 如果没有传递 require 会认为是全局方法，不做导入处理
+          if( !option.require ) {
+            option.identifierName = key
+          }
+        })
+    }
+  }
+}
+复制代码
+</code></pre></div><p><code>Program</code> 节点内我们先将接收到的插件配置 <code>options</code> 拷贝了一份，挂到了 <code>state</code> 上， 之前有说过 <code>state</code> 可以用作 AST 节点之间的数据传递，然后我们首先访问 <code>Program</code> 下的 <code>ImportDeclaration</code> 也就是 <code>import</code> 语句, 看看 <code>log4js</code> 是否有被导入过， 若引入过便会记录到 <code>identifierName</code> 字段上，完成对 <code>import</code> 语句的访问后，我们就可根据 <code>identifierName</code> 字段判断是否已被引入，若未引入则使用 <strong>@babel/helper-module-imports</strong>[7] 创建 <code>import</code> ，并用 babel 提供的 <code>generateUid</code> 方法创建唯一的变量名。</p> <p>这样在之前的代码我们也需要略微调整， 不能直接使用从注释 <code>@inject:xxx</code> 提取出的方法名， 而是应该使用 <code>identifierName</code>， 关键部分代码修改如下：</p> <div class="language- extra-class"><pre class="language-text"><code>if( sourceModuleList.includes(injectType) ) {
+  // 判断是否有函数体
+  if (pathBody.isBlockStatement()) {
+    // 搜索body 内部是否有 @code:xxx 注释
+    // 因为无法直接访问到 comment，所以需要访问 body内每个 AST 节点的 leadingComments 属性
+    const codeIndex = pathBody.node.body.findIndex(block =&gt; block.leadingComments &amp;&amp; block.leadingComments.some(comment =&gt; new RegExp(`@code:\s?${injectType}`).test(comment.value) ))
+    // 未声明则默认插入位置为第一行
+    if( codeIndex === -1 ) {
+      // 使用 identifierName 
+      pathBody.node.body.unshift(api.template.statement(`${state.options[injectType].identifierName}()`)());
+    }else {
+      // 使用 identifierName 
+      pathBody.node.body.splice(codeIndex, 0, api.template.statement(`${state.options[injectType].identifierName}()`)());
+    }
+  }else {
+    // 无函数体情况
+    // 使用 ast 提供的 `@babel/template`  api ， 用代码段生成 ast
+
+    // 使用 identifierName 
+    const ast = api.template.statement(`{${state.options[injectType].identifierName}();return BODY;}`)({BODY: pathBody.node});
+    // 替换原本的body
+    pathBody.replaceWith(ast);
+  }
+}
+复制代码
+</code></pre></div><p>最终效果如下：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz/pfCCZhlbMQRR1x1btjbliaibhknJlowibug2gmj9Z2O0eq92Oiaz4Hmp5xT915UGAL63824veia6GmoEUP4AKSrCGng/640?wx_fmt=other&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片">file</p> <p>我们实现了函数自动插入并自动引入依赖包。</p> <h2 id="结尾"><a href="#结尾" class="header-anchor">#</a> 结尾</h2> <p>本篇文章是对自己学习 “Babel 插件通关秘籍” 小册子后的一个记录总结，我开始和大部分想写babel插件却无从下手的同学一样，所以这篇文章主要也是按自己写插件时摸索的思路去写。希望也是能给大家提供一个思路。</p> <p>完整版已支持 <code>自定义代码片段</code> 的插入，完整代码已上传至 <strong>github</strong>**：https://github.com/nxl3477/babel-plugin-code-inject**，同时也发布至了 <strong>npm</strong>**：https://www.npmjs.com/package/babel-plugin-code-inject**。 欢迎大家 star 和 issue。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/babel/" class="prev router-link-active">
+        前端工程化
+      </a></span> <!----></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/24.d1ded971.js" defer></script>
+  </body>
+</html>

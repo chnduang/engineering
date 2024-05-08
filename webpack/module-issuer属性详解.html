@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>十分钟精进 Webpack：module.issuer 属性详解 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/63.a3367f7e.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webpack/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>1-webpack原理</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-webpack优化</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/webpack/Koa2中使用webpack进行打包压缩.html" class="sidebar-link">Koa2中使用webpack进行打包压缩</a></li><li><a href="/webpack/esbuild为什么这么快.html" class="sidebar-link">esbuild 为什么这么快?</a></li><li><a href="/webpack/module-issuer属性详解.html" class="active sidebar-link">十分钟精进 Webpack：module.issuer 属性详解</a></li><li><a href="/webpack/webpack-node.html" class="sidebar-link">Node中使用webpack打包时出现的错误和警告</a></li><li><a href="/webpack/不要再看loader原理了，自己写一个就什么都明白了.html" class="sidebar-link">不要再看loader原理了，自己写一个就什么都明白了</a></li><li><a href="/webpack/分享几个Webpack实用分析工具.html" class="sidebar-link">分享几个 Webpack 实用分析工具</a></li><li><a href="/webpack/如何开发VSCode-LSP服务.html" class="sidebar-link">实例解析：如何开发 VSCode LSP 服务</a></li><li><a href="/webpack/如何调试Webpack问题.html" class="sidebar-link">我是如何调试 Webpack 问题的</a></li><li><a href="/webpack/手把手带你入门Webpack-Plugin.html" class="sidebar-link">手把手带你入门 Webpack Plugin</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="十分钟精进-webpack-module-issuer-属性详解"><a href="#十分钟精进-webpack-module-issuer-属性详解" class="header-anchor">#</a> 十分钟精进 Webpack：<code>module.issuer</code> 属性详解</h1> <blockquote><p><a href="https://mp.weixin.qq.com/s/QkXFOHNpL0PRQtCcWIaX-g" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/QkXFOHNpL0PRQtCcWIaX-g<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <p>本文讲解 webpack 的 <code>module.issuer</code> 属性，内容涵盖该属性的作用、运行原理，并结合 webpack 实例讲解应用场景。</p> <h1 id="module-issuer-是什么"><a href="#module-issuer-是什么" class="header-anchor">#</a> <code>module.issuer</code> 是什么</h1> <p>在 webpack 实现上，文件资源使用 <code>Module</code> 类管理，所有关于资源的操作、转译、合并、关系都在 <code>module</code> 实现。而 <code>module.issuer</code> 属性用于记录资源的引用者，例如对于下面的资源依赖：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblmhRW1n9ZTjImPbJ2Ric2bAISpcS7ibG70aoRRicH6SJAmnh7ibDZgxqoEBhcjjD8lmhd4W3ajB7ClCWA/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p><code>index</code> 引用了 <code>a/b</code> 两个文件，webpack 构建时会用三个 <code>module</code> 对象分别对应三个文件，同时在 <code>a/b</code> 模块中通过 <code>issuer</code> 属性指向 <code>index</code> 模块：</p> <ul><li><code>module['a.js'].issuer = module['index.js']</code></li> <li><code>module['b.js'].issuer = module['index.js']</code></li></ul> <p>通过 <code>issuer</code> 属性，模块可以反向查找到引用者。</p> <h1 id="实例-stats-类"><a href="#实例-stats-类" class="header-anchor">#</a> 实例：Stats 类</h1> <p><code>Stats</code> 是 webpack 内置的对象，用于收集构建过程信息，比如耗时、模块依赖关系、错误信息、报警信息等，我们运行 webpack 命令输出的命令行信息就是由 <code>Stats</code> 类提供的：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>如果编译过程发生错误，<code>Stats</code> 会通过 <code>module.issuer</code> 属性逐级往上查找出完整调用堆栈：</p> <div class="language- extra-class"><pre class="language-text"><code>class Stats {
+  constructor(compilation) {
+    // ...
+  }
+  toJson(options, forToString) {
+    const formatError = (e) =&gt; {
+      // ...
+      if (showModuleTrace &amp;&amp; e.origin) {
+        text += `\n @ ${this.formatFilePath(
+          e.origin.readableIdentifier(requestShortener)
+        )}`;
+        // ...
+        while (current.issuer) {
+          current = current.issuer;
+          text += `\n @ ${current.readableIdentifier(requestShortener)}`;
+        }
+      }
+      return text;
+    };
+  }
+}
+</code></pre></div><p>最终输出下图最后两行错误堆栈：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h1 id="源码"><a href="#源码" class="header-anchor">#</a> 源码</h1> <p>issuer 属性定义在 <code>webpack/lib/Module.js</code> 的 <code>construct</code> 函数，但 webpack 中使用较少，难以追踪，这里取了个巧，用 <code>Object.defineProperty</code> 拦截 <code>issuer</code>属性，定位出哪里获取/修改了这个属性：</p> <div class="language- extra-class"><pre class="language-text"><code>// webpack/lib/Module.js
+class Module extends DependenciesBlock {
+  constructor(type, context = null) {
+    // ...
+    // 注释掉原本的定义
+    // this.issuer = null;
+    // 用 Object.defineProperty 拦截
+    this._issuer=null;
+    Object.defineProperty(this, &quot;issuer&quot;, {
+        get: () =&gt; {
+            debugger;
+            return this._issuer;
+        },
+        set: (value) =&gt; {
+            debugger;
+            this._issuer = value;
+        },
+    });
+    // ...
+  }
+}
+</code></pre></div><p>之后，使用 <code>ndb</code> 断点追踪 <code>issuer</code> 的使用情况，可以看到只有在 <code>compilation</code> 对象的 <code>addModuleDependencies</code> 函数中触发 <code>set</code> 函数：</p> <div class="language- extra-class"><pre class="language-text"><code>class Compilation {
+  addModuleDependencies(
+    module,
+    dependencies,
+    bail,
+    cacheGroup,
+    recursive,
+    callback
+  ) {
+    // ...
+    if (addModuleResult.issuer) {
+      if (currentProfile) {
+        dependentModule.profile = currentProfile;
+      }
+      // 触发更改
+      dependentModule.issuer = module;
+    }
+    // ...
+  }
+}
+</code></pre></div><p><code>addModuleDependencies</code> 函数的作用是为已有 <code>module</code> 添加依赖声明，例如对于上面的例子：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>在 <code>compilation</code> 解析(解析过程可参考：[万字总结] 一文吃透 Webpack 核心原理)出 <code>index.js</code> 内容的 AST 后，遍历 <code>require/import</code> 语句解读当前模块引用了那些资源，解析到任意依赖后就会调用 <code>addModuleDependencies</code> 记录依赖关系，从 <code>addModuleDependencies</code> 源码看在依赖被创建为 <code>module</code> 时，会同步修改新模块的 <code>issuer</code> ，记录引用者的信息。</p> <h1 id="示例-追溯模块引用关系"><a href="#示例-追溯模块引用关系" class="header-anchor">#</a> 示例：追溯模块引用关系</h1> <p>基于 <code>module.issuer</code> ，我们可以从特定 <code>module</code> 出发反向遍历依赖关系链，为此我写了个示例插件：</p> <div class="language- extra-class"><pre class="language-text"><code>function RevertTracePlugin(options) {
+}
+
+RevertTracePlugin.prototype.apply = function(compiler) {
+  // compilation 被创建出来后触发
+  compiler.hooks.thisCompilation.tap(&quot;RevertTracePlugin&quot;, function(compilation) {
+    // 构建模块前触发
+    compilation.hooks.buildModule.tap(&quot;RevertTracePlugin&quot;, (module) =&gt; {
+      const stack = [];
+      let current = module;
+      // 向上遍历，找出所有引用者
+      while (current.issuer) {
+        stack.push(current.issuer.rawRequest);
+        current = current.issuer;
+      }
+      if (stack.length &gt; 0) {
+        console.group(`资源 ${module.rawRequest} 引用链： `);
+        console.log(stack.join(&quot;\n&quot;));
+        console.groupEnd();
+        console.log();
+      }
+    });
+  });
+};
+</code></pre></div><p>上述插件用到两个钩子：</p> <ul><li><code>compiler.hooks.thisCompilation</code>：webpack 启动编译，创建出 <code>compilation</code> 对象时触发，在示例场景中作为中间步骤，用于获取创建出的 <code>compilation</code> 对象</li> <li><code>compilation.hooks.buildModule</code> ：执行模块构建之前触发，此时 <code>module</code> 对象所有原信息都初始化完毕，可以正常获取到 <code>issuer</code> 属性</li></ul> <blockquote><p>❝</p> <p>关于 webpack 钩子的更多内容，可查阅往前文章：[源码解读] Webpack 插件架构深度讲解</p> <p>❞</p></blockquote> <p>在 <code>buildModule</code> 钩子内部通过 <code>while</code> 循环不断向上遍历，最终可追溯到完整引用链条，例如对于下图的文件依赖关系：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>入口 <code>index.js</code> 文件引用了 <code>a.js</code>，<code>a.js</code> 文件引用了 <code>b.js</code>，上述插件运行效果：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h1 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h1> <p><code>module.issuer</code> 属性在 webpack 中使用的比较少，因为大多数时候模块间的依赖关系都可以通过 dependency graph 相关的属性正向获取，下一期我们就来聊聊 dependency graph 相关内容，感兴趣的同学欢迎点赞关注。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/esbuild为什么这么快.html" class="prev">
+        esbuild 为什么这么快?
+      </a></span> <span class="next"><a href="/webpack/webpack-node.html">
+        Node中使用webpack打包时出现的错误和警告
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/63.a3367f7e.js" defer></script>
+  </body>
+</html>

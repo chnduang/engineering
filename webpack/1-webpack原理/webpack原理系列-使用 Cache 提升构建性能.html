@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Webpack 性能系列一: 使用 Cache 提升构建性能 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/56.c9eef7e1.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webpack/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>1-webpack原理</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/webpack/1-webpack原理/Webpack下的HMR机制原理.html" class="sidebar-link">Webpack 下的 HMR 机制原理: 120 行代码帮你搞定</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列一-一文吃透Webpack核心原理.html" class="sidebar-link">一文吃透 Webpack 核心原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列七-如何编写loader.html" class="sidebar-link">Webpack 原理系列七：如何编写loader</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列九-Tree-Shaking实现原理.html" class="sidebar-link">Webpack 原理系列九：Tree-Shaking实现原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列二-Webpack插件架构深度讲解.html" class="sidebar-link">Webpack 插件架构深度讲解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列五-Webpack-Chunk分包规则详解.html" class="sidebar-link">有点难的知识点： Webpack Chunk 分包规则详解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列八-产物转译打包逻辑.html" class="sidebar-link">Webpack 原理系列八：产物转译打包逻辑</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列六-彻底理解Webpack运行时.html" class="sidebar-link">Webpack 原理系列六： 彻底理解Webpack运行时</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列四-Dependency-Graph深度解析.html" class="sidebar-link">有点难的 webpack 知识点：Dependency Graph 深度解析</a></li><li><a href="/webpack/1-webpack原理/webpack原理系列-使用 Cache 提升构建性能.html" class="active sidebar-link">Webpack 性能系列一: 使用 Cache 提升构建性能</a></li><li><a href="/webpack/1-webpack原理/webpack方方面面的核心原理总结.html" class="sidebar-link">webpack 方方面面的核心原理总结</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-webpack优化</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/webpack/Koa2中使用webpack进行打包压缩.html" class="sidebar-link">Koa2中使用webpack进行打包压缩</a></li><li><a href="/webpack/esbuild为什么这么快.html" class="sidebar-link">esbuild 为什么这么快?</a></li><li><a href="/webpack/module-issuer属性详解.html" class="sidebar-link">十分钟精进 Webpack：module.issuer 属性详解</a></li><li><a href="/webpack/webpack-node.html" class="sidebar-link">Node中使用webpack打包时出现的错误和警告</a></li><li><a href="/webpack/不要再看loader原理了，自己写一个就什么都明白了.html" class="sidebar-link">不要再看loader原理了，自己写一个就什么都明白了</a></li><li><a href="/webpack/分享几个Webpack实用分析工具.html" class="sidebar-link">分享几个 Webpack 实用分析工具</a></li><li><a href="/webpack/如何开发VSCode-LSP服务.html" class="sidebar-link">实例解析：如何开发 VSCode LSP 服务</a></li><li><a href="/webpack/如何调试Webpack问题.html" class="sidebar-link">我是如何调试 Webpack 问题的</a></li><li><a href="/webpack/手把手带你入门Webpack-Plugin.html" class="sidebar-link">手把手带你入门 Webpack Plugin</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="webpack-性能系列一-使用-cache-提升构建性能"><a href="#webpack-性能系列一-使用-cache-提升构建性能" class="header-anchor">#</a> Webpack 性能系列一: 使用 Cache 提升构建性能</h1> <blockquote><p><a href="https://mp.weixin.qq.com/s/mpF6W-4dElu0UPed03oJQw" target="_blank" rel="noopener noreferrer"><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <p>不知不觉，Webpack 原理系列已经陆续出了十篇文章，以构建主流程为纲逐步递进到插件、Loader、模块、运行时、Chunk、依赖对象、模块依赖图等关键概念的含义与运行原理，再到 HMR、Tree-Shaking 等特性的功能介绍和原理解析，满满当当十篇文章，合计超过 5W 字，基本上已经贯彻 Webpack 整个核心流程。</p> <blockquote><p>所有文章均已收录在我的公众号：【Tecvan】，欢迎关注取阅。</p></blockquote> <p>接下来我会继续沿着 Webpack 这个少人问津的方向，推出两个实用性更强的系列：基础应用、性能优化。性能优化系列主要介绍在 Webpack 场景下如何通过配置、插件等手段，优化构建与运行性能，以及这些性能优化背后的核心原理，例如本文即将介绍的 Webpack5 全新的 <code>cache</code> 功能。</p> <h1 id="使用持久化缓存"><a href="#使用持久化缓存" class="header-anchor">#</a> 使用持久化缓存</h1> <p>经过这么多年发展，Webpack 生态在前端工程化能力方面已经发展的非常全面且强大，但大而全的背后其运行性能却逐渐为行业诟病，后进如 Vite、SnowPack 等以性能著称的同类框架更是在业内掀起不小波澜。为此，Webpack 终于在第 5 个大版本引入持久化缓存，提升运行性能。</p> <p>持久化缓存算得上是 Webpack 5 最令人振奋的特性之一，它能够将首次构建结果持久化到本地文件系统，在下次执行构建时跳过一系列解析、链接、编译等非常消耗性能的操作，直接复用 module、chunk 的构建结果。</p> <p>使用持久化缓存后，构建性能有巨大提升！以 Three.js 为例，该项目包含 362 份 JS 文件，合计约 3w 行代码，算得上中大型项目：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblnMyrJ2M53C7yWrgcdcmH1WC4ZMCRLv5AObNUId9Ne7q49ofDfFsVq1CxeeuvD4L7fr6L4BGQ13zQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>配置 <code>babel-loader</code>、<code>eslint-loader</code> 后，在我机器上测试，未使用 <code>cache</code> 特性时构建耗时大约在 11000ms 到 18000ms 之间；启动 <code>cache</code> 功能后第二次构建耗时降低到 500ms 到 800ms 之间，两者相差接近 <strong>「50」</strong> 倍！</p> <p>而这接近 50 倍的性能提升，仅仅需要在 Webpack5 场景下设置 <code>cache.type = 'filesystem'</code> 即可开启：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+    //...
+    cache: {
+        type: 'filesystem'
+    },
+    //...
+};
+</code></pre></div><h1 id="原理"><a href="#原理" class="header-anchor">#</a> 原理</h1> <p>那么，为什么开启持久化缓存之后构建性能会有如此巨大的提升呢？一言蔽之，Webpack5 会将首次构建出的 Module、Chunk、ModuleGraph 等对象序列化后保存到硬盘中，后面再运行的时候就可以跳过一些耗时的编译动作，直接复用缓存信息。</p> <h2 id="构建流程"><a href="#构建流程" class="header-anchor">#</a> 构建流程</h2> <p>在《<a href="http://mp.weixin.qq.com/s?__biz=Mzg3OTYwMjcxMA==&amp;mid=2247483744&amp;idx=1&amp;sn=d7128a76eed20746cd8c5100f0899138&amp;chksm=cf00bc19f877350f17844b283fa0f39daa111864aa69f0be8ce05d3809c51496da43de018a17&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">Webpack 原理系列<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>》中，我们已经深入聊了很多关于 Webpack 构建功能的运行流程与实现细节的内容，为了加深对缓存的理解，这里有必要从构建性能角度简单回顾一下。</p> <p>Webpack 的构建过程大致上可划分为三个阶段：</p> <ul><li><p>初始化，主要是根据配置信息设置内置的各类插件</p></li> <li><p>Make - 构建阶段，从 <code>entry</code> 模块开始，执行：</p></li> <li><ul><li>读入文件内容</li> <li>调用 Loader 转译文件内容</li> <li>调用 acorn 生成 AST 结构</li> <li>分析 AST，确定模块依赖列表</li> <li>遍历模块依赖列表，对每一个依赖模块重新执行上述流程，直到生成完整的模块依赖图 —— ModuleGraph 对象</li></ul></li> <li><p>Seal - 生成阶段，过程：</p></li> <li><ul><li>代码转译，如 <code>import</code> 转换为 <code>require</code> 调用</li> <li>分析运行时依赖</li></ul></li> <li><ul><li>遍历模块依赖图，对每一个模块执行：</li> <li>合并模块代码与运行时代码，生成 chunk</li> <li>执行产物优化操作，如 Tree-shaking</li> <li>将最终结果写出到产物文件</li></ul></li></ul> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>过程中存在许多 CPU 密集型操作，例如调用 Loader 链加载文件时，遇到 babel-loader、eslint-loader、ts-loader 等工具时可能需要重复生成 AST；分析模块依赖信息时则需要遍历 AST，执行大量运算；Seal 阶段也同样存在大量 AST 遍历，以及代码转换、优化操作，等等。</p> <h2 id="实现缓存"><a href="#实现缓存" class="header-anchor">#</a> 实现缓存</h2> <p>在引入持久化缓存之前，Webpack 在每次运行时都需要对所有模块完整执行上述构建流程，假设业务项目中有 1000 个文件，则每次执行 <code>npx webpack</code> 命令时都需要从 0 开始执行 1000 次构建、生成逻辑。</p> <p>而 Webpack5 的持久化缓存功能则尝试将构建结果保存到文件系统中，在下次编译时对比每一个文件的内容哈希或时间戳，未发生变化的文件跳过编译操作，直接使用缓存副本，减少重复计算；发生变更的模块则重新执行编译流程。缓存执行时机如下图：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>如图，Webpack 在首次构建完毕后将 Module、Chunk、ModuleGraph 三类对象的状态序列化并记录到缓存文件中；在下次构建开始时，尝试读入并恢复这些对象的状态，从而跳过执行 Loader 链、解析 AST、解析依赖等耗时操作，提升编译性能。</p> <h1 id="用法详解"><a href="#用法详解" class="header-anchor">#</a> 用法详解</h1> <p>理解缓存的核心原理后，我们再回过头来看看 <code>cache</code> 提供的配置项列表，下面摘录几个比较常用的配置项：</p> <blockquote><p>官方文档：https://webpack.js.org/configuration/cache</p></blockquote> <ul><li><code>cache.type</code>：缓存类型，支持 <code>'memory' | 'filesystem'</code>，需要设置 <code>filesystem</code> 才能开启持久缓存</li> <li><code>cache.cacheDirectory</code>：缓存文件存放的路径，默认为 <code>node_modules/.cache/webpack</code></li> <li><code>cache.buildDependencies</code>：额外的依赖文件，当这些文件内容发生变化时，缓存会完全失效而执行完整的编译构建，通常可设置为项目配置文件，如：</li></ul> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+  cache: {
+    buildDependencies: {
+      config: [path.join(__dirname, 'webpack.dll_config.js')],
+    },
+  },
+};
+</code></pre></div><ul><li><code>cache.managedPaths</code>：受控目录，Webpack 构建时会跳过新旧代码哈希值与时间戳的对比，直接使用缓存副本，默认值为 <code>['./node_modules']</code></li> <li><code>cache.profile</code>：是否输出缓存处理过程的详细日志，默认为 <code>false</code></li> <li><code>cache.maxAge</code>：缓存失效时间，默认值为 <code>5184000000</code></li></ul> <p>使用时通常关注上述配置项即可，其它如 <code>idleTimeout</code>、<code>idleTimeoutAfterLargeChanges</code> 等项均与 Webpack 内部实现算法有关，与缓存效果关系不大，无需关注。</p> <h1 id="webpack-4-中的缓存"><a href="#webpack-4-中的缓存" class="header-anchor">#</a> Webpack 4 中的缓存</h1> <p>实际上，Webpack 4 已经内置使用内存实现的临时缓存功能，但必须在 <code>watch</code> 模式下使用，进程退出后立即失效，实用性不高。不过，在 Webpack 4 及之前版本中可以使用一些 <code>loader</code> 自带的缓存功能提升构建性能，例如 <code>babel-loader</code>、<code>eslint-loader</code>、<code>cache-loader</code> 。</p> <h2 id="开启-babel-loader缓存"><a href="#开启-babel-loader缓存" class="header-anchor">#</a> 开启 <code>babel-loader</code>缓存</h2> <p>只需设置 <code>cacheDirectory</code> <code>= true</code> 即可开启 <code>babel-loader</code> 持久化缓存功能，例如：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.m?js$/,
+            loader: 'babel-loader',
+            options: {
+                cacheDirectory: true,
+            },
+        }]
+    },
+    // ...
+};
+</code></pre></div><blockquote><p>配置项说明：https://github.com/babel/babel-loader#options</p></blockquote> <p>以 Three.js 为例，开启缓存后生产环境构建耗时从 3500ms 降低到 1600ms；开发环境构建从 6400ms 降低到 4500ms，性能提升约 30% ~ 50% 。</p> <p>默认情况下，<code>babel-loader</code> 会将缓存内容保存到 <code>node_modules/.cache/babel-loader</code> 目录，用户也可以通过 <code>cacheDirectory = 'dir'</code> 方式设置缓存路径。</p> <h2 id="开启-eslint-loader缓存"><a href="#开启-eslint-loader缓存" class="header-anchor">#</a> 开启 <code>eslint-loader</code>缓存</h2> <p><code>eslint-loader</code> 同样支持缓存功能，只需设置 <code>cache = true</code> 即可开启，如：</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader',
+            options: {
+                cache: true,
+            },
+        }, ]
+    },
+    // ...
+};
+</code></pre></div><blockquote><p>配置项说明：https://github.com/webpack-contrib/eslint-loader#cache</p></blockquote> <p>依然以 Three.js 为例，开启缓存后生产环境构建耗时从 6400ms 降低到 1400ms；开发环境构建从 7000ms 降低到 2100ms，性能提升达到 70% ~ 80%。</p> <p>默认情况下，<code>babel-loader</code> 会将缓存内容保存到 <code>./node_modules/.cache/eslint-loader</code> 目录，用户也可以通过 <code>cache = 'dir'</code> 方式设置缓存路径。</p> <h2 id="使用-cache-loader"><a href="#使用-cache-loader" class="header-anchor">#</a> 使用 <code>cache-loader</code></h2> <p>除 <code>babel-loader</code>、<code>eslint-loader</code> 这类特化 loader 自身携带的缓存功能外，Webpack 4 中还可以使用 <code>cache-loader</code> 实现与 Webpack 5 相似的通用持久化缓存功能，使用上只需将 <code>cache-loader</code> 配置在 <code>loader</code> 数组首位，例如：</p> <div class="language- extra-class"><pre class="language-text"><code>const path = require(&quot;path&quot;);
+const webpack = require(&quot;webpack&quot;);
+
+module.exports = {
+    // ...
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: ['cache-loader', 'babel-loader', 'eslint-loader']
+        }]
+    },
+    // ...
+};
+</code></pre></div><blockquote><p><code>cache-loader</code> 文档：https://www.npmjs.com/package/cache-loader</p></blockquote> <p>使用 <code>cache-loader</code> 后，生产环境构建耗时从 10602ms 降低到 1540ms；开发环境构建从 11130ms 降低到 4247ms，性能提升约 <strong>「60% ~ 80%」</strong>。</p> <p>与 Webpack 5 自带的持久化缓存不同，<code>cache-loader</code> 仅 Loader 执行结果有效，缓存范围与深度不如内置的缓存功能，所以性能收益相对较低，但在 Webpack 4 版本下已经不失为一种简单而有效的性能优化手段。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/1-webpack原理/Webpack原理系列四-Dependency-Graph深度解析.html" class="prev">
+        有点难的 webpack 知识点：Dependency Graph 深度解析
+      </a></span> <span class="next"><a href="/webpack/1-webpack原理/webpack方方面面的核心原理总结.html">
+        webpack 方方面面的核心原理总结
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/56.c9eef7e1.js" defer></script>
+  </body>
+</html>

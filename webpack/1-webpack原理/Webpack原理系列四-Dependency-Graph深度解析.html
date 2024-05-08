@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>有点难的 webpack 知识点：Dependency Graph 深度解析 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/55.ed6a7c66.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webpack/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>1-webpack原理</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/webpack/1-webpack原理/Webpack下的HMR机制原理.html" class="sidebar-link">Webpack 下的 HMR 机制原理: 120 行代码帮你搞定</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列一-一文吃透Webpack核心原理.html" class="sidebar-link">一文吃透 Webpack 核心原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列七-如何编写loader.html" class="sidebar-link">Webpack 原理系列七：如何编写loader</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列九-Tree-Shaking实现原理.html" class="sidebar-link">Webpack 原理系列九：Tree-Shaking实现原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列二-Webpack插件架构深度讲解.html" class="sidebar-link">Webpack 插件架构深度讲解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列五-Webpack-Chunk分包规则详解.html" class="sidebar-link">有点难的知识点： Webpack Chunk 分包规则详解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列八-产物转译打包逻辑.html" class="sidebar-link">Webpack 原理系列八：产物转译打包逻辑</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列六-彻底理解Webpack运行时.html" class="sidebar-link">Webpack 原理系列六： 彻底理解Webpack运行时</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列四-Dependency-Graph深度解析.html" class="active sidebar-link">有点难的 webpack 知识点：Dependency Graph 深度解析</a></li><li><a href="/webpack/1-webpack原理/webpack原理系列-使用 Cache 提升构建性能.html" class="sidebar-link">Webpack 性能系列一: 使用 Cache 提升构建性能</a></li><li><a href="/webpack/1-webpack原理/webpack方方面面的核心原理总结.html" class="sidebar-link">webpack 方方面面的核心原理总结</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-webpack优化</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/webpack/Koa2中使用webpack进行打包压缩.html" class="sidebar-link">Koa2中使用webpack进行打包压缩</a></li><li><a href="/webpack/esbuild为什么这么快.html" class="sidebar-link">esbuild 为什么这么快?</a></li><li><a href="/webpack/module-issuer属性详解.html" class="sidebar-link">十分钟精进 Webpack：module.issuer 属性详解</a></li><li><a href="/webpack/webpack-node.html" class="sidebar-link">Node中使用webpack打包时出现的错误和警告</a></li><li><a href="/webpack/不要再看loader原理了，自己写一个就什么都明白了.html" class="sidebar-link">不要再看loader原理了，自己写一个就什么都明白了</a></li><li><a href="/webpack/分享几个Webpack实用分析工具.html" class="sidebar-link">分享几个 Webpack 实用分析工具</a></li><li><a href="/webpack/如何开发VSCode-LSP服务.html" class="sidebar-link">实例解析：如何开发 VSCode LSP 服务</a></li><li><a href="/webpack/如何调试Webpack问题.html" class="sidebar-link">我是如何调试 Webpack 问题的</a></li><li><a href="/webpack/手把手带你入门Webpack-Plugin.html" class="sidebar-link">手把手带你入门 Webpack Plugin</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="有点难的-webpack-知识点-dependency-graph-深度解析"><a href="#有点难的-webpack-知识点-dependency-graph-深度解析" class="header-anchor">#</a> 有点难的 webpack 知识点：Dependency Graph 深度解析</h1> <h1 id="背景"><a href="#背景" class="header-anchor">#</a> 背景</h1> <p>Dependency Graph 概念来自官网 Dependency Graph | webpack 一文，原文解释是这样的：</p> <blockquote><p>Any time one file depends on another, webpack treats this as a dependency. This allows webpack to take non-code assets, such as images or web fonts, and also provide them as dependencies for your application.</p> <p>When webpack processes your application, it starts from a list of modules defined on the command line or in its configuration file. Starting from these entry points, webpack recursively builds a dependency graph that includes every module your application needs, then bundles all of those modules into a small number of bundles - often, just one - to be loaded by the browser.</p></blockquote> <p>翻译过来核心意思是：webpack 处理应用代码时，会从开发者提供的 entry 开始递归地组建起包含所有模块的 <strong>dependency graph</strong> _，_之后再将这些 module 打包为 bundles 。</p> <p>然而事实远不止官网描述的这么简单，Dependency Graph 贯穿 webpack 整个运行周期，从 make 阶段的模块解析，到 seal 阶段的 chunk 生成，以及 tree-shaking 功能都高度依赖于Dependency Graph ，是 webpack 资源构建的一个非常核心的数据结构。</p> <p>本文将围绕 webpack@v5.x 的 Dependency Graph 实现，展开讨论三个方面的内容：</p> <ul><li><p>Dependency Graph 在 webpack 实现中以何种数据结构呈现</p></li> <li><p>Webpack 运行过程中如何收集模块间依赖关系，进而构建出 Dependency Graph</p></li> <li><p>Dependency Graph 构建完毕后，又是如何被消费的</p></li></ul> <p>学习本文，您将进一步了解 webpack 模块解析的处理细节，结合前文 [万字总结] 一文吃透 Webpack 核心原理 ，您可以更透彻地了解 webpack 的核心机制。</p> <h1 id="dependency-graph"><a href="#dependency-graph" class="header-anchor">#</a> Dependency Graph</h1> <p>本节将深入 webpack 源码，解读 Dependency Graph 的内在数据结构及依赖关系收集过程。在正式展开之前，有必要回顾几个 webpack 重要的概念：</p> <ul><li><p><code>Module</code>：资源在 webpack 内部的映射对象，包含了资源的路径、上下文、依赖、内容等信息</p></li> <li><p><code>Dependency</code> ：在模块中引用其它模块，例如 <code>import &quot;a.js&quot;</code> 语句，webpack 会先将引用关系表述为 Dependency 子类并关联 module 对象，等到当前 module 内容都解析完毕之后，启动下次循环开始将 Dependency 对象转换为适当的 Module 子类。</p></li> <li><p><code>Chunk</code> ：用于组织输出结构的对象，webpack 分析完所有模块资源的内容，构建出完整的 Dependency Graph 之后，会根据用户配置及 Dependency Graph 内容构建出一个或多个 chunk 实例，每个 chunk 与最终输出的文件大致上是一一对应的。</p></li></ul> <h2 id="数据结构"><a href="#数据结构" class="header-anchor">#</a> 数据结构</h2> <p>Webpack 4.x 的 Dependency Graph 实现较简单，主要由 Dependence/Module 内置的系列属性记录引用、被引用关系。</p> <p>而 Webpack 5.0 之后则实现了一套相对复杂的类结构记录模块间依赖关系，将模块依赖相关的逻辑从 Dependence/Module 解耦为一套独立的类型结构，主要类型有：</p> <ul><li><p><code>ModuleGraph</code> ：记录 Dependency Graph 信息的容器，一方面保存了构建过程中涉及到的所有 <code>module</code> 、<code>dependency</code> 对象，以及这些对象互相之间的引用；另一方面提供了各种工具方法，方便使用者迅速读取出 <code>module</code> 或 <code>dependency</code> 附加的信息</p></li> <li><p><code>ModuleGraphConnection</code> ：记录模块间引用关系的数据结构，内部通过 <code>originModule</code> 属性记录引用关系中的父模块，通过 <code>module</code> 属性记录子模块。此外还提供了一系列函数工具用于判断对应的引用关系的有效性</p></li> <li><p><code>ModuleGraphModule</code> ：<code>Module</code> 对象在 Dependency Graph 体系下的补充信息，包含模块对象的 <code>incomingConnections</code> —— 指向模块本身的 ModuleGraphConnection 集合，即谁引用了模块自己；<code>outgoingConnections</code> —— 该模块对外的依赖，即该模块引用了其他那些模块。</p></li></ul> <p>类间关系大致为：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>上面类图需要额外注意：</p> <ul><li><p><code>ModuleGraph</code> 对象通过 <code>_dependencyMap</code> 属性记录 <code>Dependency</code> 对象与 <code>ModuleGraphConnection</code> 连接对象之间的映射关系，后续的处理中可以基于这层映射迅速找到 <code>Dependency</code> 实例对应的引用与被引用者</p></li> <li><p><code>ModuleGraph</code> 对象通过 <code>_moduleMap</code> 在 <code>module</code> 基础上附加 <code>ModuleGraphModule</code> 信息，而 <code>ModuleGraphModule</code> 最大的作用就是记录了模块的引用与被引用关系，后续的处理可以基于该属性找到 <code>module</code> 实例的所有依赖与被依赖关系</p></li></ul> <h2 id="依赖收集过程"><a href="#依赖收集过程" class="header-anchor">#</a> 依赖收集过程</h2> <p><code>ModuleGraph</code>、<code>ModuleGraphConnection</code>、<code>ModuleGraphModule</code> 三者协作，在 webpack 构建过程(make 阶段)中逐步收集模块间的依赖关系，回顾前文 [万字总结] 一文吃透 Webpack 核心原理 提及的构建流程图：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>构建流程本身很复杂，建议读者对比阅读 [万字总结] 一文吃透 Webpack 核心原理 一文，加深理解。依赖关系收集过程主要发生在两个节点：</p> <ul><li><p><code>addDependency</code> ：webpack 从模块内容中解析出引用关系后，创建适当的 <code>Dependency</code> 子类并调用该方法记录到 <code>module</code> 实例</p></li> <li><p><code>handleModuleCreation</code> ：模块解析完毕后，webpack 遍历父模块的依赖集合，调用该方法创建 <code>Dependency</code> 对应的子模块对象，之后调用 <code>compilation.moduleGraph.setResolvedModule</code> 方法将父子引用信息记录到 <code>moduleGraph</code> 对象上</p></li></ul> <p><code>setResolvedModule</code> 方法的逻辑大致为：</p> <div class="language- extra-class"><pre class="language-text"><code>class ModuleGraph {
+    constructor() {
+        /** @type {Map&lt;Dependency, ModuleGraphConnection&gt;} */
+        this._dependencyMap = new Map();
+        /** @type {Map&lt;Module, ModuleGraphModule&gt;} */
+        this._moduleMap = new Map();
+    }
+
+    /**
+     * @param {Module} originModule the referencing module
+     * @param {Dependency} dependency the referencing dependency
+     * @param {Module} module the referenced module
+     * @returns {void}
+     */
+    setResolvedModule(originModule, dependency, module) {
+        const connection = new ModuleGraphConnection(
+            originModule,
+            dependency,
+            module,
+            undefined,
+            dependency.weak,
+            dependency.getCondition(this)
+        );
+        this._dependencyMap.set(dependency, connection);
+        const connections = this._getModuleGraphModule(module).incomingConnections;
+        connections.add(connection);
+        const mgm = this._getModuleGraphModule(originModule);
+        if (mgm.outgoingConnections === undefined) {
+            mgm.outgoingConnections = new Set();
+        }
+        mgm.outgoingConnections.add(connection);
+    }
+}
+</code></pre></div><p>上例代码主要更改了 <code>_dependencyMap</code> 及 <code>moduleGraphModule</code> 的出入 <code>connections</code> 属性，以此收集当前模块的上下游依赖关系。</p> <h2 id="实例解析"><a href="#实例解析" class="header-anchor">#</a> 实例解析</h2> <p>看个简单例子，对于下面的依赖关系：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>Webpack 启动后，在构建阶段递归调用 <code>compilation.handleModuleCreation</code> 函数，逐步补齐 Dependency Graph 结构，最终可能生成如下数据结果：</p> <div class="language- extra-class"><pre class="language-text"><code>ModuleGraph: {
+    _dependencyMap: Map(3){
+        { 
+            EntryDependency{request: &quot;./src/index.js&quot;} =&gt; ModuleGraphConnection{
+                module: NormalModule{request: &quot;./src/index.js&quot;}, 
+                // 入口模块没有引用者，故设置为 null
+                originModule: null
+            } 
+        },
+        { 
+            HarmonyImportSideEffectDependency{request: &quot;./src/a.js&quot;} =&gt; ModuleGraphConnection{
+                module: NormalModule{request: &quot;./src/a.js&quot;}, 
+                originModule: NormalModule{request: &quot;./src/index.js&quot;}
+            } 
+        },
+        { 
+            HarmonyImportSideEffectDependency{request: &quot;./src/a.js&quot;} =&gt; ModuleGraphConnection{
+                module: NormalModule{request: &quot;./src/b.js&quot;}, 
+                originModule: NormalModule{request: &quot;./src/index.js&quot;}
+            } 
+        }
+    },
+
+    _moduleMap: Map(3){
+        NormalModule{request: &quot;./src/index.js&quot;} =&gt; ModuleGraphModule{
+            incomingConnections: Set(1) [
+                // entry 模块，对应 originModule 为null
+                ModuleGraphConnection{ module: NormalModule{request: &quot;./src/index.js&quot;}, originModule:null }
+            ],
+            outgoingConnections: Set(2) [
+                // 从 index 指向 a 模块
+                ModuleGraphConnection{ module: NormalModule{request: &quot;./src/a.js&quot;}, originModule: NormalModule{request: &quot;./src/index.js&quot;} },
+                // 从 index 指向 b 模块
+                ModuleGraphConnection{ module: NormalModule{request: &quot;./src/b.js&quot;}, originModule: NormalModule{request: &quot;./src/index.js&quot;} }
+            ]
+        },
+        NormalModule{request: &quot;./src/a.js&quot;} =&gt; ModuleGraphModule{
+            incomingConnections: Set(1) [
+                ModuleGraphConnection{ module: NormalModule{request: &quot;./src/a.js&quot;}, originModule: NormalModule{request: &quot;./src/index.js&quot;} }
+            ],
+            // a 模块没有其他依赖，故 outgoingConnections 属性值为 undefined
+            outgoingConnections: undefined
+        },
+        NormalModule{request: &quot;./src/b.js&quot;} =&gt; ModuleGraphModule{
+            incomingConnections: Set(1) [
+                ModuleGraphConnection{ module: NormalModule{request: &quot;./src/b.js&quot;}, originModule: NormalModule{request: &quot;./src/index.js&quot;} }
+            ],
+            // b 模块没有其他依赖，故 outgoingConnections 属性值为 undefined
+            outgoingConnections: undefined
+        }
+    }
+}
+</code></pre></div><p>从上面的 Dependency Graph 可以看出，本质上 <code>ModuleGraph._moduleMap</code> 已经形成了一个有向无环图结构，其中字典 <code>_moduleMap</code> 的 key 为图的节点，对应 value <code>ModuleGraphModule</code> 结构中的 <code>outgoingConnections</code> 属性为图的边，则上例中从起点 <code>index.js</code> 出发沿 <code>outgoingConnections</code> 向前可遍历出图的所有顶点。</p> <h1 id="作用"><a href="#作用" class="header-anchor">#</a> 作用</h1> <p>以 webpack@v5.16.0 为例，关键字 <code>moduleGraph</code> 出现了 1277 次，几乎覆盖了 <code>webpack/lib</code> 文件夹下的所有文件，其作用可见一斑。虽然出现的频率很高，但总的来说可以看出有两个主要作用：信息索引、转变为 <code>ChunkGraph</code> 以确定输出结构。</p> <h2 id="信息索引"><a href="#信息索引" class="header-anchor">#</a> 信息索引</h2> <p><code>ModuleGraph</code> 类型提供了很多实现 module / dependency 信息查询的工具函数，例如：</p> <ul><li><p><code>getModule(dep: Dependency)</code> ：根据 dep 查找对应的 <code>module</code> 实例</p></li> <li><p><code>getOutgoingConnections(module: Module)</code> ：查找 <code>module</code> 实例的所有依赖</p></li> <li><p><code>getIssuer(module: Module)</code> ：查找 <code>module</code> 在何处被引用(关于 issuer 机制的更多信息，可参考我的另一篇文章：十分钟精进 Webpack：module.issuer 属性详解 )</p></li></ul> <p>等等。</p> <p>Webpack@v5.x 内部的许多插件、Dependency 子类、Module 子类的实现都需要用到这些工具函数查找特定模块、依赖的信息，例如：</p> <ul><li><p><code>SplitChunksPlugin</code> 在优化 chunks 处理中，需要使用 <code>moduleGraph.getExportsInfo</code> 查询各个模块的 <code>exportsInfo</code> (模块导出的信息集合，与 tree-shaking 强相关，后续会单出一篇文章讲解)信息以确定如何分离 <code>chunk</code>。</p></li> <li><p>在 <code>compilation.seal</code> 函数中，需要遍历 entry 对应的 dep 并调用 <code>moduleGraph.getModule</code> 获取完整的 module 定义</p></li> <li><p>...</p></li></ul> <p>那么，在您编写插件时，可以考虑适度参考 <code>webpack/lib/ModuleGraph.js</code> 中提供的方法，确认可以获取使用那些函数获取到您所需要的信息。</p> <h2 id="构建-chunkgraph"><a href="#构建-chunkgraph" class="header-anchor">#</a> 构建 ChunkGraph</h2> <p>Webpack 主体流程中，make 构建阶段结束之后会进入 <code>seal</code> 阶段，开始梳理以何种方式组织输出内容。在 webpack@v4.x 时，<code>seal</code> 阶段主要围绕 <code>Chunk</code> 及 <code>ChunkGroup</code> 两个类型展开，而到了 5.0 之后，与 Dependency Graph 类似也引入了一套全新的基于 <code>ChunkGraph</code> 的图结构实现资源生成算法。</p> <p>在 compilation.seal 函数中，首先根据默认规则 —— 每个 entry 对应组织为一个 chunk ，之后调用 <code>webpack/lib/buildChunkGraph.js</code> 文件定义的 <code>buildChunkGraph</code> 方法，遍历 <code>make</code>阶段生成的 <code>moduleGraph</code> 对象从而将 module 依赖关系转化为 <code>chunkGraph</code> 对象。</p> <p>这一块的逻辑也特别复杂，不在这里展开，下次会单独出一篇文章讲解 <code>chunk/chunkGroup/chunkGraph</code> 等对象构筑成的模块输出规则。</p> <h1 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h1> <p>本文讨论的 Dependency Graph 概念在 webpack 内部被大量使用，因此理解这个概念对我们理解 webpack 源码，或者学习如何编写插件、loader 都会有极大的帮助。在分析过程其实也挖掘出了很多新的知识盲点：</p> <ul><li><p>Chunk 的完整机制是怎么样的？</p></li> <li><p>Dependency 的完整体系是如何实现的，有何作用？</p></li> <li><p>Module 的 exportsInfo 如何收集？在 tree-shaking 过程中如何被使用？</p></li></ul> <p>如果你也对上述问题感兴趣，欢迎点赞关注，后续会围绕 webpack 输出更多有用的文章。</p> <blockquote><p>往期文章：</p> <ul><li><p>[万字总结] 一文吃透 Webpack 核心原理</p></li> <li><p>十分钟精进 Webpack：module.issuer 属性详解</p></li> <li><p>[源码解读] Webpack 插件架构深度讲解</p></li></ul></blockquote></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/1-webpack原理/Webpack原理系列六-彻底理解Webpack运行时.html" class="prev">
+        Webpack 原理系列六： 彻底理解Webpack运行时
+      </a></span> <span class="next"><a href="/webpack/1-webpack原理/webpack原理系列-使用 Cache 提升构建性能.html">
+        Webpack 性能系列一: 使用 Cache 提升构建性能
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/55.ed6a7c66.js" defer></script>
+  </body>
+</html>

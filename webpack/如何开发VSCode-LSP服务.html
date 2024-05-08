@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>实例解析：如何开发 VSCode LSP 服务 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/67.b47bf615.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webpack/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>1-webpack原理</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-webpack优化</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/webpack/Koa2中使用webpack进行打包压缩.html" class="sidebar-link">Koa2中使用webpack进行打包压缩</a></li><li><a href="/webpack/esbuild为什么这么快.html" class="sidebar-link">esbuild 为什么这么快?</a></li><li><a href="/webpack/module-issuer属性详解.html" class="sidebar-link">十分钟精进 Webpack：module.issuer 属性详解</a></li><li><a href="/webpack/webpack-node.html" class="sidebar-link">Node中使用webpack打包时出现的错误和警告</a></li><li><a href="/webpack/不要再看loader原理了，自己写一个就什么都明白了.html" class="sidebar-link">不要再看loader原理了，自己写一个就什么都明白了</a></li><li><a href="/webpack/分享几个Webpack实用分析工具.html" class="sidebar-link">分享几个 Webpack 实用分析工具</a></li><li><a href="/webpack/如何开发VSCode-LSP服务.html" class="active sidebar-link">实例解析：如何开发 VSCode LSP 服务</a></li><li><a href="/webpack/如何调试Webpack问题.html" class="sidebar-link">我是如何调试 Webpack 问题的</a></li><li><a href="/webpack/手把手带你入门Webpack-Plugin.html" class="sidebar-link">手把手带你入门 Webpack Plugin</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="实例解析-如何开发-vscode-lsp-服务"><a href="#实例解析-如何开发-vscode-lsp-服务" class="header-anchor">#</a> 实例解析：如何开发 VSCode LSP 服务</h1> <blockquote><p><a href="https://mp.weixin.qq.com/s/kIntNVMXae_wMD5t5NJ8ag" target="_blank" rel="noopener noreferrer">https://mp.weixin.qq.com/s/kIntNVMXae_wMD5t5NJ8ag<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <p>从一张动图说起：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktW9RLdxPscMcF0aWfHTRSE05Wl7LvTt1cVsww4G27ibzoJOewCf7oq3sQ/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>上图应该大家经常使用的**「错误诊断」** 功能，它能够在你编写代码的过程中提示，那一块代码存在什么类型的问题。</p> <p>这个看似高大上的功能，从插件开发者的角度看其实特别简单，基本上就是上一篇文章《<a href="https://mp.weixin.qq.com/s?__biz=Mzg3OTYwMjcxMA==&amp;mid=2247484259&amp;idx=1&amp;sn=afc05ec9cec29e4e1b7a750356b30502&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">你不知道的 VSCode 代码高亮原理<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>》中简单介绍过的 VSCode 开发语言特性的三种方案：</p> <ul><li>基于 <strong>「Sematic Tokens Provider」</strong> 协议的词法高亮</li> <li>基于 <strong>「Language API」</strong> 的编程式语法高亮</li> <li>基于 <strong>「Language Server Protocol」</strong> 的多进程架构语法高亮</li></ul> <p>其中， <strong>「Language Server Protocol」</strong> 由于性能与开发效率上的优势已经逐渐成为主流实现方案，本文接下来会基于 LSP 展开介绍各种语言特性的实现细节，解答 LSP 的通讯模型与开发模式。</p> <h1 id="示例代码"><a href="#示例代码" class="header-anchor">#</a> 示例代码</h1> <p>本文示例均已同步到 Github，建议读者先拉下代码实际体验：</p> <div class="language- extra-class"><pre class="language-text"><code># 1. clone 示例代码
+git clone git@github.com:Tecvan-fe/vscode-lsp-sample.git
+# 2. 安装依赖
+npm i # or yarn
+# 3. 使用 vscode 打开示例代码
+code ./vscode-lsp-sample
+# 4. 在 vscode 中按下 F5 启动调试
+</code></pre></div><p>顺利执行完毕后，可以看到插件的调试窗口：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWyJLIKic6MtJU1iacDylTE2icBEZL8nbpQU3l8pjgk61fPrpGhZMDovLKQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>核心代码有：</p> <ul><li><p><code>server/src/server.ts</code>：LSP 服务端代码，提供代码补全、错误诊断、代码提示等常见语言功能的示例</p></li> <li><p><code>client/src/extension.ts</code>：提供一系列 LSP 参数，包括 Server 的调试端口、代码入口、通讯方式等。</p></li> <li><p><code>packages.json</code>：主要提供了语法插件所需要的配置信息，包括：</p></li> <li><ul><li><code>activationEvents</code>：声明插件的激活条件，代码中的 <code>onLanguage:plaintext</code> 意为打开 txt 文本文件时激活</li> <li><code>main</code>：插件的入口文件</li></ul></li></ul> <p>其中，<code>client/src/extension.ts</code> 与 <code>packages.json</code> 都比较简单，本文不过多介绍，重点在于 <code>server/src/server.ts</code> 文件，接下来我们逐步拆解，解析不同语言特性的实现细节。</p> <h1 id="如何编写-language-server"><a href="#如何编写-language-server" class="header-anchor">#</a> 如何编写 Language Server</h1> <h2 id="server-结构解析"><a href="#server-结构解析" class="header-anchor">#</a> Server 结构解析</h2> <p>示例项目的 <code>server/src/server.ts</code> 实现了一个小型但完整的 Language Server 应用，核心代码：</p> <div class="language- extra-class"><pre class="language-text"><code>// 要素1： 初始化 LSP 连接对象
+const connection = createConnection(ProposedFeatures.all);
+
+// 要素2： 创建文档集合对象，用于映射到实际文档
+const documents: TextDocuments&lt;TextDocument&gt; = new TextDocuments(TextDocument);
+
+connection.onInitialize((params: InitializeParams) =&gt; {
+  // 要素3： 显式声明插件支持的语言特性
+  const result: InitializeResult = {
+    capabilities: {
+      hoverProvider: true
+    },
+  };
+  return result;
+});
+
+// 要素4： 将文档集合对象关联到连接对象
+documents.listen(connection);
+
+// 要素5： 开始监听连接对象
+connection.listen();
+</code></pre></div><p>从示例代码可以总结出 Language Server 的 5 个必要步骤：</p> <ul><li>创建 <code>connection</code> 对象，用于实现客户端与服务器之间的信息互通</li> <li>创建 <code>documents</code> 文档集合对象，用于映射客户端正在编辑的文件</li> <li>在 <code>connection.onInitialize</code> 事件中，显式声明插件支持的语法特性，例如上例中返回对象包含 <code>hoverProvider: true</code> 声明，表示该插件能够提供代码悬停提示功能</li> <li>将 <code>documents</code> 关联到 <code>connection</code> 对象</li> <li>调用 <code>connection.listen</code> 函数，开始监听客户端消息</li></ul> <blockquote><p>上述</p> <div class="language- extra-class"><pre class="language-text"><code>connection
+</code></pre></div><p>、</p> <div class="language- extra-class"><pre class="language-text"><code>documents
+</code></pre></div><p>等对象定义在 npm 包：</p> <ul><li><code>vscode-languageserver/node</code></li> <li><code>vscode-languageserver-textdocument</code></li></ul></blockquote> <p>这是一个基本模板，主要完成了 Language Server 各种初始化操作，后续就可以使用 <code>connection.onXXX</code> 或 <code>documents.onXXX</code> 监听各类交互事件，并在事件回调中返回符合 LSP 协议的结果，或者显式调用通讯函数如 <code>connection.sendDiagnostics</code> 发送交互信息。</p> <p>接下来我们通过几个简单实例，分析各项语言特性的实现逻辑。</p> <h2 id="悬停提示"><a href="#悬停提示" class="header-anchor">#</a> 悬停提示</h2> <p>当鼠标停留在语言元素如函数、变量、符号等 token 时，VSCode 会显示 token 对应描述与帮助信息：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWp2Fc5oO9LsB4hiaXxRKGN6Q3N7Pdo1GeqA6slthne69JV3vflpPDYYQ/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>要实现悬停提示功能，首先需要声明插件支持 <code>hoverProvider</code> 特性：</p> <div class="language- extra-class"><pre class="language-text"><code>connection.onInitialize((params: InitializeParams) =&gt; {
+  return {
+    capabilities: {
+      hoverProvider: true
+    },
+  };
+});
+</code></pre></div><p>之后，需要监听 <code>connection.onHover</code> 事件，并在事件回调中返回提示信息：</p> <div class="language- extra-class"><pre class="language-text"><code>connection.onHover((params: HoverParams): Promise&lt;Hover&gt; =&gt; {
+  return Promise.resolve({
+    contents: [&quot;Hover Demo&quot;],
+  });
+});
+</code></pre></div><p>OK，这就是一个很简单的语言特性示例了，本质上就是监听事件 + 返回结果，非常简单。</p> <h2 id="代码格式化"><a href="#代码格式化" class="header-anchor">#</a> 代码格式化</h2> <p>代码格式化是一个特别有用的功能，能够帮助用户快速、自动完成代码的美化处理，实现效果如：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWIic6yibkbS5uFaZ3INFibMgyJD447pm91ydYayFqaufdV6tfHzWoCnPtg/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>实现悬停提示功能，首先需要声明插件支持 <code>documentFormattingProvider</code> 特性：</p> <div class="language- extra-class"><pre class="language-text"><code>{
+    ...
+    capabilities : {
+        documentFormattingProvider: true
+        ...
+    }
+}
+</code></pre></div><p>之后，监听 <code>onDocumentFormatting</code> 事件：</p> <div class="language- extra-class"><pre class="language-text"><code>connection.onDocumentFormatting(
+  (params: DocumentFormattingParams): Promise&lt;TextEdit[]&gt; =&gt; {
+    const { textDocument } = params;
+    const doc = documents.get(textDocument.uri)!;
+    const text = doc.getText();
+    const pattern = /\b[A-Z]{3,}\b/g;
+    let match;
+    const res = [];
+    // 查找连续大写字符串
+    while ((match = pattern.exec(text))) {
+      res.push({
+        range: {
+          start: doc.positionAt(match.index),
+          end: doc.positionAt(match.index + match[0].length),
+        },
+        // 将大写字符串替换为 驼峰风格
+        newText: match[0].replace(/(?&lt;=[A-Z])[A-Z]+/, (r) =&gt; r.toLowerCase()),
+      });
+    }
+
+    return Promise.resolve(res);
+  }
+);
+</code></pre></div><p>示例代码中，回调函数主要实现将连续大写字符串格式化为驼峰字符串，效果如图：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktW9YvaVxiaqibpdoqaD74JMf0bxQ0D9CK82XclYpL1vKxPjRV3UIq62K7A/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <h2 id="函数签名"><a href="#函数签名" class="header-anchor">#</a> 函数签名</h2> <p>函数签名特性在用户输入函数调用语法时触发，此时 VSCode 会根据 Language Server 返回的内容，显示该函数的帮助信息。</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWBJCOarcyRJRVjhPucLLBLrmIZ451xF9B7YlksuZI7xTmpdvjlBhWVQ/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>实现函数签名功能，需要首先声明插件支持 <code>documentFormattingProvider</code> 特性：</p> <div class="language- extra-class"><pre class="language-text"><code>{
+    ...
+    capabilities : {
+        signatureHelpProvider: {
+            triggerCharacters: [&quot;(&quot;],
+        }
+        ...
+    }
+}
+</code></pre></div><p>之后，监听 <code>onSignatureHelp</code> 事件：</p> <div class="language- extra-class"><pre class="language-text"><code>connection.onSignatureHelp(
+  (params: SignatureHelpParams): Promise&lt;SignatureHelp&gt; =&gt; {
+    return Promise.resolve({
+      signatures: [
+        {
+          label: &quot;Signature Demo&quot;,
+          documentation: &quot;帮助文档&quot;,
+          parameters: [
+            {
+              label: &quot;@p1 first param&quot;,
+              documentation: &quot;参数说明&quot;,
+            },
+          ],
+        },
+      ],
+      activeSignature: 0,
+      activeParameter: 0,
+    });
+  }
+);
+</code></pre></div><p>实现效果：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWGyponCNck3u29cJS8ZVIUBRLMIfrib32EpDBGQadB3QIF6LKTK94dAQ/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <h2 id="错误提示"><a href="#错误提示" class="header-anchor">#</a> 错误提示</h2> <p>注意，错误提示的实现逻辑与上述事件 + 响应的模式有一点点不同：</p> <ul><li>首先不需要通过<code>capabilities</code> 做额外声明；</li> <li>监听的是 <code>documents.onDidChangeContent</code> 事件，而不是 <code>connection</code> 对象上的事件</li> <li>不是在事件回调中用 <code>return</code> 语句返回错误信息，而是调用 <code>connection.sendDiagnostics</code> 发送错误消息</li></ul> <p>完整示例：</p> <div class="language- extra-class"><pre class="language-text"><code>// 增量错误诊断
+documents.onDidChangeContent((change) =&gt; {
+  const textDocument = change.document;
+
+  // The validator creates diagnostics for all uppercase words length 2 and more
+  const text = textDocument.getText();
+  const pattern = /\b[A-Z]{2,}\b/g;
+  let m: RegExpExecArray | null;
+
+  let problems = 0;
+  const diagnostics: Diagnostic[] = [];
+  while ((m = pattern.exec(text))) {
+    problems++;
+    const diagnostic: Diagnostic = {
+      severity: DiagnosticSeverity.Warning,
+      range: {
+        start: textDocument.positionAt(m.index),
+        end: textDocument.positionAt(m.index + m[0].length),
+      },
+      message: `${m[0]} is all uppercase.`,
+      source: &quot;Diagnostics Demo&quot;,
+    };
+    diagnostics.push(diagnostic);
+  }
+
+  // Send the computed diagnostics to VSCode.
+  connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
+});
+</code></pre></div><p>这段逻辑诊断代码中是否存在连续大写字符串，通过 <code>sendDiagnostics</code> 发送相应的错误信息，实现效果：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWH0M3Qy8Xy1AnSegzSfKTmxbQicwJ05MYDZo32gnukiaVpPhFoJj69zvg/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <h2 id="如何识别事件与响应体"><a href="#如何识别事件与响应体" class="header-anchor">#</a> 如何识别事件与响应体</h2> <p>上述示例，我有意忽略大多数实现细节，更关注实现语言特性的基本框架和输入输出。授人以鱼不如授人以渔，所以接下来我们花一点点时间了解从哪里获取这些接口、参数、响应体的信息。有两个非常重要的链接：</p> <ul><li>https://zjsms.com/egWtqPj/ ， VSCode 官网关于可编程语言特性的说明文档</li> <li>https://zjsms.com/egWVTPg/ ，LSP 协议官网</li></ul> <p>这两个网页提供了 VSCode 所支持的所有语言特性的详细介绍，可以在这里找到你想要实现的特性的概念性描述，例如对于代码补齐：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWWY0xygPd3PGg6POficTSvAiaNNBFRduJfhyvNLddo6vvp5KzTP4HTWuQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>嗯，有点复杂且太过 detail，不过还是很有必要耐心了解下，让你对即将要做的事情有一个高层概念上的理解。</p> <p>此外，如果你选择使用 TS 编写 LSP，事情会变得更简单。<code>vscode-languageserver</code>包提供了非常完善的 Typescript 类型定义，我们完全可以借助 ts + VSCode 的代码提示找到需要使用的监听函数：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWibacDMqZCgnkiaZ5x621ibGsYOL1fabsE0lhL6OJ5DEL90U4n6dPezvlQ/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>之后，根据函数签名找到参数、结果的类型定义：</p> <p><img src="https://mmbiz.qpic.cn/mmbiz_gif/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWk52bGO4bW4SYWgbTBztmic76YNk2lp8ddRic9JjvWW2p0hZyvib5TUxkw/640?wx_fmt=gif&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="图片"></p> <p>之后，就可以根据类型定义，有针对性地处理参数，返回对应结构的数据。</p> <h1 id="深入理解-lsp"><a href="#深入理解-lsp" class="header-anchor">#</a> 深入理解 LSP</h1> <p>看完示例后，我们再反过头来看看 LSP。LSP —— Language Server Protocol 本质上是一种基于 JSON-RPC 的进程间通讯协议，LSP 本身包含两大块内容：</p> <ul><li>定义 client 与 server 之间的通讯模型，也就是谁、在什么时候、以什么方式向对方发送什么格式的信息，接收方又以什么方式返回响应信息</li> <li>定义通讯信息体，也就是以什么格式、什么字段、什么样的值表达信息状态</li></ul> <p>作为类比，HTTP 协议专门用于描述网络节点间如何传输、理解超媒体文档的网络通讯协议；而 LSP 协议则专门用于描述 IDE 中，用户行为与响应之间的通讯方式与信息结构。</p> <p>总结一下，LSP 架构的工作流程如下：</p> <ul><li>编辑器如 VSCode 跟踪、计算、管理用户行为模型，在发生某些特定的行为序列时，以 LSP 协议规定的通讯方式向 Language Server 发送动作与上下文参数</li> <li>Language Server 根据这些参数异步地返回响应信息</li> <li>编辑器再根据响应信息处理交互反馈</li></ul> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWShvEciaE34ICzdkO3c6vIo5PIgBRczwbqGvJr5cN82iaCxcp2AFcQoDQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>简单说，编辑器负责与用户直接交互， Language Server 负责在背后默默计算如何响应用户的交互动作，两者以进程粒度分离、解耦，在 LSP 协议框架下各司其职又协作共生。就好像我们通常开发的 Web 应用中，前端负责与用户交互，服务端负责管理诸如权限、业务数据、业务状态流转等不可见的部分。</p> <p>目前，LSP 协议已经发展到 3.16 版本，覆盖大多数语言特性，包括：</p> <ul><li>代码补全</li> <li>代码高亮</li> <li>定义跳转</li> <li>类型推断</li> <li>错误检测</li> <li>等等</li></ul> <p>得益于 LSP 清晰的设计，这些语言特性的开发套路都很相似，学习曲线很平滑，开发的时候基本上只需要关心监听那个函数，返回什么格式的结构，可以说掌握上述几个示例之后就可以很简单地上手了。</p> <p>过去，IDE 对语言特性的支持是集成在 IDE 或者以同构插件形式实现的，在 VSCode 中这种同构扩展能力以 <strong>「Language API」</strong> 或 <strong>「Sematic Tokens Provider」</strong> 接口方式提供，这两种方式在上一篇文章《<a href="https://mp.weixin.qq.com/s?__biz=Mzg3OTYwMjcxMA==&amp;mid=2247484259&amp;idx=1&amp;sn=afc05ec9cec29e4e1b7a750356b30502&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">你不知道的 VSCode 代码高亮原理<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>》都有过介绍了，虽然架构上比较简单，容易理解，但有一些明显硬伤：</p> <ul><li>插件开发者必须复用 VSCode 本身的开发语言、环境，例如 Python 语言插件就必须用 JavaScript 写</li> <li>同一个编程语言需要为不同 IDE 重复开发相似的扩展插件，重复投入</li></ul> <p><img src="https://mmbiz.qpic.cn/mmbiz_png/3xDuJ3eiciblkLunDick5KwwyaIbVdEzktWNSKia0ic3JY24rVQJ8HsldibHAD1yQiaLkhRkwXdibIMSJoPthmIjG5m48w/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p> <p>LSP 最大的优势就是将 IDE 客户端与实际计算交互特性的服务端隔离开来，同一个 Language Service 可以重复应用在多个不同 Language Client 中。</p> <p>此外，LSP 协议下客户端、服务器分别在各自进程运行，在性能上也会有正向收益：</p> <ul><li>确保 UI 进程不卡顿</li> <li>Node 环境下，充分利用多核 CPU 能力</li> <li>由于不再限定 Language Server 的技术栈，开发者可以选择更高性能的语言，例如 Go</li></ul> <p>总的来说，就是很强。</p> <h1 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h1> <p>本文介绍了 VSCode 下，开发一款基于 LSP 的语言插件所需要具备的最最基本的技能，实际开发的时候通常还会混合另一种技术：嵌入式语法 —— Embedded Languages Server ，实现复杂的多语言复合支持，如果有人感兴趣，我们下周可以聊聊。赞19在看8</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/分享几个Webpack实用分析工具.html" class="prev">
+        分享几个 Webpack 实用分析工具
+      </a></span> <span class="next"><a href="/webpack/如何调试Webpack问题.html">
+        我是如何调试 Webpack 问题的
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/67.b47bf615.js" defer></script>
+  </body>
+</html>

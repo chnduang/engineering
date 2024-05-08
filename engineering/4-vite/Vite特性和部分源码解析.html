@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vite 特性和部分源码解析 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/30.b5a85a3d.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/51.b83fa154.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link router-link-active">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link router-link-active">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/engineering/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>3-npm</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>4-vite</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/engineering/4-vite/Vite特性和部分源码解析.html" class="active sidebar-link">Vite 特性和部分源码解析</a></li><li><a href="/engineering/4-vite/Vite的好与坏.html" class="sidebar-link">Vite 的好与坏</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>6-gulp</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/engineering/大型复杂前端工程的优化方法.html" class="sidebar-link">大型复杂前端工程的优化方法</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>罗列</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="vite-特性和部分源码解析"><a href="#vite-特性和部分源码解析" class="header-anchor">#</a> Vite 特性和部分源码解析</h1> <blockquote><p><a href="https://www.zoo.team/article/about-vite" target="_blank" rel="noopener noreferrer">https://www.zoo.team/article/about-vite<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></blockquote> <h3 id="vite-的特性"><a href="#vite-的特性" class="header-anchor">#</a> Vite 的特性</h3> <p>Vite 的主要特性就是 Bundleless。基于浏览器开始原生的支持 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules?fileGuid=DDr3GGh6QRvQgWQC" target="_blank" rel="noopener noreferrer">JavaScript 模块功能<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>，JavaScript 模块依赖于 <code>import</code> 和 <code>export</code> 的特性，目前主流浏览器基本都支持；</p> <p>想要查看具体支持的版本可以<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules?fileGuid=DDr3GGh6QRvQgWQC" target="_blank" rel="noopener noreferrer">点击这里<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>；</p> <p>那这有什么优势呢？</p> <h4 id="去掉打包步骤"><a href="#去掉打包步骤" class="header-anchor">#</a> 去掉打包步骤</h4> <p>打包是开发者利用打包工具将应用各个模块集合在一起形成 bundle，以一定规则读取模块的代码，以便在不支持模块化的浏览器里使用，并且可以减少 http 请求的数量。但其实在本地开发过程中打包反而增加了我们排查问题的难度，增加了响应时长，Vite 在本地开发命令中去除了打包步骤，从而缩短构建时长。</p> <h4 id="按需加载"><a href="#按需加载" class="header-anchor">#</a> 按需加载</h4> <p>为了减少 bundle 大小，一般会想要按需加载，主要有两种方式：</p> <ol><li>使用动态引入 <code>import()</code> 的方式异步的加载模块，被引入模块依然需要提前编译打包；</li> <li>使用 tree shaking 等方式尽力的去掉未引用的模块；</li></ol> <p>而 Vite 的方式更为直接，它只在某个模块被 import 的时候动态的加载它，实现了真正的按需加载，减少了加载文件的体积，缩短了时长；</p> <h4 id="vite开发环境主体流程"><a href="#vite开发环境主体流程" class="header-anchor">#</a> Vite开发环境主体流程</h4> <p>下图是 Vite 在开发环境运行时加载文件的主体流程。</p> <p><img src="https://zoo.team/images/upload/upload_c8f0296868a9922185d2748ffa1be9b6.png" alt="img"></p> <h3 id="vite-部分源码解析"><a href="#vite-部分源码解析" class="header-anchor">#</a> Vite 部分源码解析</h3> <h4 id="总体目录结构"><a href="#总体目录结构" class="header-anchor">#</a> 总体目录结构</h4> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token operator">|</span><span class="token operator">-</span><span class="token constant">CHANGELOG</span><span class="token punctuation">.</span>md
+<span class="token operator">|</span><span class="token operator">-</span><span class="token constant">LICENSE</span><span class="token punctuation">.</span>md
+<span class="token operator">|</span><span class="token operator">-</span><span class="token constant">README</span><span class="token punctuation">.</span>md
+<span class="token operator">|</span><span class="token operator">-</span>bin
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>openChrome<span class="token punctuation">.</span>applescript
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>vite<span class="token punctuation">.</span>js
+<span class="token operator">|</span><span class="token operator">-</span>client<span class="token punctuation">.</span>d<span class="token punctuation">.</span>ts
+<span class="token operator">|</span><span class="token operator">-</span><span class="token keyword">package</span><span class="token punctuation">.</span>json
+<span class="token operator">|</span><span class="token operator">-</span>rollup<span class="token punctuation">.</span>config<span class="token punctuation">.</span>js #打包配置文件
+<span class="token operator">|</span><span class="token operator">-</span>scripts
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>patchTypes<span class="token punctuation">.</span>js
+<span class="token operator">|</span><span class="token operator">-</span>src
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>client #客户端
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>client<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>env<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>overlay<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>tsconfig<span class="token punctuation">.</span>json
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>node #服务端
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>build<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>cli<span class="token punctuation">.</span>ts #命令入口文件
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>config<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>constants<span class="token punctuation">.</span>ts #常量
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>importGlob<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>index<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>logger<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>optimizer
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>esbuildDepPlugin<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>index<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>registerMissing<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>scan<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>plugin<span class="token punctuation">.</span>ts #rollup 插件
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>plugins   #插件相关文件
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>asset<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>clientInjections<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>css<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>esbuild<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>html<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>index<span class="token punctuation">.</span>ts 
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span><span class="token operator">...</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>preview<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>server
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>hmr<span class="token punctuation">.</span>ts #热更新
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>http<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>index<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>middlewares #中间件
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span><span class="token operator">...</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>moduleGraph<span class="token punctuation">.</span>ts <span class="token function">#模块间关系组装</span><span class="token punctuation">(</span>树形<span class="token punctuation">)</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>openBrowser<span class="token punctuation">.</span>ts #打开浏览器
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>pluginContainer<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>send<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>sourcemap<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>transformRequest<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ws<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssr
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>__tests__
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrTransform<span class="token punctuation">.</span>spec<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrExternal<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrManifestPlugin<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrModuleLoader<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrStacktrace<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>ssrTransform<span class="token punctuation">.</span>ts
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>tsconfig<span class="token punctuation">.</span>json
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span>utils<span class="token punctuation">.</span>ts
+<span class="token operator">|</span><span class="token operator">-</span>tsconfig<span class="token punctuation">.</span>base<span class="token punctuation">.</span>json
+<span class="token operator">|</span><span class="token operator">-</span>types
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">-</span><span class="token operator">...</span>                  
+</code></pre></div><h4 id="server-核心方法"><a href="#server-核心方法" class="header-anchor">#</a> server 核心方法</h4> <p>从入口文件 cli.ts，可以看到三个命令对应了 3 个核心的文件&amp;方法；</p> <ol><li>dev 命令</li></ol> <p>文件路径：./server/index.ts；</p> <p>主要方法：createServer；</p> <p>主要功能：项目的本地开发命令，基于 httpServer 启动服务，Vite 通过对请求路径的劫持获取资源的内容返回给浏览器，服务端将文件路径进行了重写。例如：</p> <p>项目源码如下：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./index.vue'</span><span class="token punctuation">;</span>
+</code></pre></div><p>经服务端重写后，node_modules 文件夹下的三方包代码路径也会被拼接完整。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> __vite__cjsImport0_vue <span class="token keyword">from</span> <span class="token string">&quot;/node_modules/.vite/vue.js?v=ed69bae0&quot;</span><span class="token punctuation">;</span> 
+<span class="token keyword">const</span> createApp <span class="token operator">=</span> __vite__cjsImport0_vue<span class="token punctuation">[</span><span class="token string">&quot;createApp&quot;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'/src/pages/back-sky/index.vue'</span><span class="token punctuation">;</span>
+</code></pre></div><p>2.build 命令 文件路径：./build.ts ；</p> <p>主要方法：build；</p> <p>主要功能：使用 rollup 打包编译</p> <p>3.optimize 命令</p> <p>文件路径：./optimizer/index.ts；</p> <p>主要方法：optimizeDeps；</p> <p>主要功能：主要针对第三方包，Vite 在执行 runOptimize 的时候中会使用 rollup 对三方包重新编译，将编译成符合 esm 模块规范的新的包放入 node_modules 下的 .vite 中，然后配合 resolver 对三方包的导入进行处理：使用编译后的包内容代替原来包的内容，这样就解决了 Vite 中不能使用 cjs 包的问题。</p> <p>下面是 .vite 文件夹中的 _metadata.json 文件，它在预编译的过程中生成，罗列了所有被预编译完成的文件及其路径。例如：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">{</span>
+  <span class="token string-property property">&quot;hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;31d458ff&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;browserHash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ed69bae0&quot;</span><span class="token punctuation">,</span>
+  <span class="token string-property property">&quot;optimized&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">&quot;element-plus/lib/utils/dom&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">&quot;file&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/.vite/element-plus_lib_utils_dom.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/element-plus/lib/utils/dom.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;needsInterop&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string-property property">&quot;element-plus&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">&quot;file&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/.vite/element-plus.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/element-plus/lib/index.esm.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;needsInterop&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string-property property">&quot;vue&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">&quot;file&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/.vite/vue.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;src&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/Users/zcy/Documents/workspace/back-sky-front/node_modules/vue/dist/vue.runtime.esm-bundler.js&quot;</span><span class="token punctuation">,</span>
+      <span class="token string-property property">&quot;needsInterop&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span><span class="token operator">...</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="模块解析"><a href="#模块解析" class="header-anchor">#</a> 模块解析</h4> <p><a href="https://cn.vitejs.dev/guide/dep-pre-bundling.html?fileGuid=DDr3GGh6QRvQgWQC" target="_blank" rel="noopener noreferrer">预构建<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>是用来提升页面重载速度，它将 CommonJS、UMD 等转换为 ESM 格式。预构建这一步由 <a href="http://esbuild.github.io/?fileGuid=DDr3GGh6QRvQgWQC" target="_blank" rel="noopener noreferrer">esbuild<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 执行，这使得 Vite 的冷启动时间比任何基于 JavaScript 的打包程序都要快得多。</p> <p><img src="https://zoo.team/images/upload/upload_203be43ea9d3500018696161b0ccabb6.png" alt="img"></p> <p>为什么 ESbuild 会更快？</p> <ol><li>使用 Go 语言</li> <li>重度并行，使用 CPU</li> <li>高效使用内存</li> <li>Scratch 编写，减少使用三方库，避免导致性能不可控</li></ol> <p>重写导入为合法的 URL，例如 <code>/node_modules/.vite/my-dep.js?v=f3sf2ebd</code> 以便浏览器能够正确导入它们</p> <h4 id="热更新"><a href="#热更新" class="header-anchor">#</a> 热更新</h4> <p>热更新主体流程如下：</p> <ol><li>服务端基于 watcher 监听文件改动，根据类型判断更新方式，并编译资源</li> <li>客户端通过 WebSocket 监听到一些更新的消息类型</li> <li>客户端收到资源信息，根据消息类型执行热更新逻辑</li></ol> <p><img src="https://zoo.team/images/upload/upload_974126b0285a213f577fe72b3ed91d90.jpg" alt="img"></p> <p>下面是服务端热更新的核心 hmr.ts 中的部分判断逻辑；</p> <p>如果配置文件或者环境文件发生修改时，会触发服务重启，才能让配置生效。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">if</span> <span class="token punctuation">(</span>file <span class="token operator">===</span> config<span class="token punctuation">.</span>configFile <span class="token operator">||</span> file<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">'.env'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// auto restart server 配置&amp;环境文件修改则自动重启服务</span>
+  <span class="token function">debugHmr</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">[config change] </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>chalk<span class="token punctuation">.</span><span class="token function">dim</span><span class="token punctuation">(</span>shortFile<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+  config<span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>
+    chalk<span class="token punctuation">.</span><span class="token function">green</span><span class="token punctuation">(</span><span class="token string">'config or .env file changed, restarting server...'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token literal-property property">clear</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token literal-property property">timestamp</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+  <span class="token keyword">await</span> <span class="token function">restartServer</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span>
+  <span class="token keyword">return</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>html 文件更新时，将会触发页面的重新加载。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">if</span> <span class="token punctuation">(</span>file<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">'.html'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// html 文件更新</span>
+  config<span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>chalk<span class="token punctuation">.</span><span class="token function">green</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">page reload </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span> <span class="token operator">+</span>         chalk<span class="token punctuation">.</span><span class="token function">dim</span><span class="token punctuation">(</span>shortFile<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">clear</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">timestamp</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'full-reload'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> config<span class="token punctuation">.</span>server<span class="token punctuation">.</span>middlewareMode
+    <span class="token operator">?</span> <span class="token string">'*'</span>
+    <span class="token operator">:</span> <span class="token string">'/'</span> <span class="token operator">+</span> <span class="token function">normalizePath</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">relative</span><span class="token punctuation">(</span>config<span class="token punctuation">.</span>root<span class="token punctuation">,</span> file<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token comment">// loaded but not in the module graph, probably not js</span>
+  <span class="token function">debugHmr</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">[no modules matched] </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>chalk<span class="token punctuation">.</span><span class="token function">dim</span><span class="token punctuation">(</span>shortFile<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Vue 等文件更新时，都会进入 <code>updateModules</code> 方法，正常情况下只会触发 update，实现热更新，热替换；</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">function</span> <span class="token function">updateModules</span><span class="token punctuation">(</span>
+  <span class="token parameter"><span class="token literal-property property">file</span><span class="token operator">:</span> string<span class="token punctuation">,</span>
+  <span class="token literal-property property">modules</span><span class="token operator">:</span> ModuleNode<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">timestamp</span><span class="token operator">:</span> number<span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> config<span class="token punctuation">,</span> ws <span class="token punctuation">}</span><span class="token operator">:</span> ViteDevServer</span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token literal-property property">updates</span><span class="token operator">:</span> Update<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token keyword">const</span> invalidatedModules <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token operator">&lt;</span>ModuleNode<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">// 遍历插件数组，关联下面的片段</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> mod <span class="token keyword">of</span> modules<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> boundaries <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token operator">&lt;</span><span class="token punctuation">{</span>
+      <span class="token literal-property property">boundary</span><span class="token operator">:</span> ModuleNode
+      <span class="token literal-property property">acceptedVia</span><span class="token operator">:</span> ModuleNode
+    <span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">// 设置时间戳</span>
+    <span class="token function">invalidate</span><span class="token punctuation">(</span>mod<span class="token punctuation">,</span> timestamp<span class="token punctuation">,</span> invalidatedModules<span class="token punctuation">)</span>
+    <span class="token comment">// 查找引用模块，判断是否需要重载页面</span>
+    <span class="token keyword">const</span> hasDeadEnd <span class="token operator">=</span> <span class="token function">propagateUpdate</span><span class="token punctuation">(</span>mod<span class="token punctuation">,</span> timestamp<span class="token punctuation">,</span> boundaries<span class="token punctuation">)</span>
+    <span class="token comment">// 找不到引用者则会发起刷新</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>hasDeadEnd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      config<span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>chalk<span class="token punctuation">.</span><span class="token function">green</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">page reload </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span> <span class="token operator">+</span> chalk<span class="token punctuation">.</span><span class="token function">dim</span><span class="token punctuation">(</span>file<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">clear</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">timestamp</span><span class="token operator">:</span> <span class="token boolean">true</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'full-reload'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token keyword">return</span>
+    <span class="token punctuation">}</span>
+    updates<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>
+      <span class="token operator">...</span><span class="token punctuation">[</span><span class="token operator">...</span>boundaries<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> boundary<span class="token punctuation">,</span> acceptedVia <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>boundary<span class="token punctuation">.</span>type<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">-update</span><span class="token template-punctuation string">`</span></span> <span class="token keyword">as</span> Update<span class="token punctuation">[</span><span class="token string">'type'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        timestamp<span class="token punctuation">,</span>
+        <span class="token literal-property property">path</span><span class="token operator">:</span> boundary<span class="token punctuation">.</span>url<span class="token punctuation">,</span>
+        <span class="token literal-property property">acceptedPath</span><span class="token operator">:</span> acceptedVia<span class="token punctuation">.</span>url
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// 日志输出</span>
+  config<span class="token punctuation">.</span>logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span>
+    updates
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> path <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> chalk<span class="token punctuation">.</span><span class="token function">green</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">hmr update </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span> <span class="token operator">+</span> chalk<span class="token punctuation">.</span><span class="token function">dim</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token literal-property property">clear</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token literal-property property">timestamp</span><span class="token operator">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+  <span class="token comment">// 向客户端发送消息，进行热更新操作</span>
+  ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'update'</span><span class="token punctuation">,</span>
+    updates
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上面代码中的 modules 是热更新时需要执行的各个插件</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> plugin <span class="token keyword">of</span> config<span class="token punctuation">.</span>plugins<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>plugin<span class="token punctuation">.</span>handleHotUpdate<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> filteredModules <span class="token operator">=</span> <span class="token keyword">await</span> plugin<span class="token punctuation">.</span><span class="token function">handleHotUpdate</span><span class="token punctuation">(</span>hmrContext<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>filteredModules<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      hmrContext<span class="token punctuation">.</span>modules <span class="token operator">=</span> filteredModules
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Vite 会把模块的依赖关系组合成 moduleGraph，它的结构类似树形，热更新中判断哪些文件需要更新也会依赖 moduleGraph；它的文件内容大致如下：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// moduleGraph 返回的 ModuleNode 大致结构</span>
+ ModuleNode <span class="token punctuation">{</span>
+  <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/src/pages/back-sky/index.js'</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">file</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/src/pages/back-sky/index.js'</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">importers</span><span class="token operator">:</span> Set <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">importedModules</span><span class="token operator">:</span> Set <span class="token punctuation">{</span>
+    ModuleNode <span class="token punctuation">{</span>
+      <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/node_modules/.vite/vue.js?v=32cfd30c'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">file</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/node_modules/.vite/vue.js'</span><span class="token punctuation">,</span>
+      <span class="token operator">...</span><span class="token operator">...</span>
+      <span class="token literal-property property">lastHMRTimestamp</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'/node_modules/.vite/vue.js?v=32cfd30c'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'js'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    ModuleNode <span class="token punctuation">{</span>
+      <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/src/pages/back-sky/index.vue'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">file</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/src/pages/back-sky/index.vue'</span><span class="token punctuation">,</span>
+      <span class="token operator">...</span><span class="token operator">...</span>
+      <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'/src/pages/back-sky/index.vue'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'js'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    ModuleNode <span class="token punctuation">{</span>
+      <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/node_modules/element-plus/lib/theme-chalk/index.css'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">file</span><span class="token operator">:</span> <span class="token string">'/Users/zcy/Documents/workspace/back-sky-front/node_modules/element-plus/lib/theme-chalk/index.css'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">importers</span><span class="token operator">:</span> <span class="token punctuation">[</span>Set<span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">importedModules</span><span class="token operator">:</span> Set <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">acceptedHmrDeps</span><span class="token operator">:</span> Set <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">isSelfAccepting</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">transformResult</span><span class="token operator">:</span> <span class="token punctuation">[</span>Object<span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">ssrTransformResult</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">ssrModule</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">lastHMRTimestamp</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'/node_modules/element-plus/lib/theme-chalk/index.css'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'js'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span><span class="token operator">...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">acceptedHmrDeps</span><span class="token operator">:</span> Set <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">isSelfAccepting</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">transformResult</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">code</span><span class="token operator">:</span> <span class="token string">'import __vite__cjsImport0_vue from '</span> <span class="token operator">+</span>
+      <span class="token string">'&quot;/node_modules/.vite/vue.js?v=32cfd30c&quot;; const createApp = '</span> <span class="token operator">+</span>
+      <span class="token string">'__vite__cjsImport0_vue[&quot;createApp&quot;];\nimport App from '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;'/src/pages/back-sky/index.vue';\nimport &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;'/node_modules/element-plus/lib/theme-chalk/index.css';\n\nconst app = &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'createApp(App);\n\nimport { addHistoryMethod } from '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;'/src/pages/back-sky/api/index.js';\nimport {\n  ElButton,\n  ElDropdown,\n  &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'ElDropdownMenu,\n  ElDropdownItem,\n  ElMenu,\n  ElSubmenu,\n  ElMenuItem,\n  '</span> <span class="token operator">+</span>
+      <span class="token string">'ElMenuItemGroup,\n  ElPopover,\n  ElDialog,\n  ElRow,\n  ElInput,\n  '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;ElLoading,\n} from '/node_modules/.vite/element-plus.js?v=32cfd30c';\n\n&quot;</span> <span class="token operator">+</span>
+      <span class="token string">'app.use(ElButton);\napp.use(ElLoading);\napp.use(ElDropdown);\n'</span> <span class="token operator">+</span>
+      <span class="token string">'app.use(ElDropdownMenu);\napp.use(ElDropdownItem);\napp.use(ElMenu);\n'</span> <span class="token operator">+</span>
+      <span class="token string">'app.use(ElSubmenu);\napp.use(ElMenuItem);\napp.use(ElMenuItemGroup);\n'</span> <span class="token operator">+</span>
+      <span class="token string">'app.use(ElPopover);\napp.use(ElDialog);\napp.use(ElRow);\napp.use(ElInput);\n'</span> <span class="token operator">+</span>
+      <span class="token string">&quot;\nconst f = ()=&gt;{\n  return app.mount('#app');\n};\n\nconst $backsky = &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;document.getElementById('back-sky');\nif($backsky) {\n  $backsky.innerHTML &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;= '';\n  $backsky.appendChild(f().$el);\n} else {\n  window.onload = &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;function(){\n    document.getElementById('back-sky') &amp;&amp; &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;document.getElementById('back-sky').appendChild(f().$el);\n  };\n}\n\n&quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;window.addHistoryListener = addHistoryMethod('historychange');\n&quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;history.pushState =  addHistoryMethod('pushState');\nhistory.replaceState &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;=  addHistoryMethod('replaceState');\n\n// 监听hash路由变化，不与onhashchange互相覆盖\n&quot;</span> <span class="token operator">+</span>
+      <span class="token string">'addHashChange(()=&gt;{\n  setTimeout(() =&gt; {\n    const $backsky = '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;document.getElementById('back-sky');\n    if($backsky &amp;&amp; &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot;$backsky.innerHTML === '') {\n      $backsky.appendChild(f().$el);\n    }\n &quot;</span> <span class="token operator">+</span>
+      <span class="token string">&quot; },0);\n});\n\nfunction addHashChange(callback) {\n  if('onhashchange' in &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'window === false){//浏览器不支持\n    return false;\n  }\n  '</span> <span class="token operator">+</span>
+      <span class="token string">'if(window.addEventListener) {\n    '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;window.addEventListener('hashchange',function(e) {\n      callback &amp;&amp; &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'callback(e);\n    },false);\n  }else if(window.attachEvent) {//IE 8 及更早 IE '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;版本浏览器\n    window.attachEvent('onhashchange',function(e) {\n      callback &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'&amp;&amp; callback(e);\n    });\n  }\n  '</span> <span class="token operator">+</span>
+      <span class="token string">&quot;window.addHistoryListener('history',function(e){\n    callback &amp;&amp; &quot;</span> <span class="token operator">+</span>
+      <span class="token string">'callback(e);\n  });\n}\n\n\n'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">map</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">etag</span><span class="token operator">:</span> <span class="token string">'W/&quot;846-Qa424gJKl3YCqHDWXXsM1mFHRqg&quot;'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">ssrTransformResult</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">ssrModule</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">lastHMRTimestamp</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'/src/pages/back-sky/index.js'</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'js'</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="原有项目切换"><a href="#原有项目切换" class="header-anchor">#</a> 原有项目切换</h3> <p>最后我们来看下如何使用 Vite 去打包一个旧的 Vue 项目；</p> <p>首先我们需要升级 Vue3</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> vue@next
+</code></pre></div><p>并为项目添加 vite 配置文件，在根目录下创建 vite.config.js，并为它添加一些基础的配置。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// vite.config.js</span>
+<span class="token comment">// vite2.1.5</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> vue <span class="token keyword">from</span> <span class="token string">'@vitejs/plugin-vue'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 配置选项</span>
+  <span class="token literal-property property">resolve</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">alias</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">'@utils'</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'./src/utils'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">vue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><p>引用的第三方组件库可能也会需要升级，例如：升 element-ui 至 element-plus</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> element-plus
+</code></pre></div><p>Vue3 在 import 时，需使用 <code>createApp</code> 方法进行初始化</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> createApp <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vue'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./index.vue'</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">createApp</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  ElInput<span class="token punctuation">,</span>
+  ElLoading<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'element-plus'</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>ElButton<span class="token punctuation">)</span><span class="token punctuation">;</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>ElLoading<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">...</span><span class="token operator">...</span>
+</code></pre></div><p>到这里就可以将项目运行起来了。 注意：Vite 官方不允许省略 .vue 后缀，否则就会报错；</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token punctuation">[</span>plugin<span class="token operator">:</span>vite<span class="token operator">:</span><span class="token keyword">import</span><span class="token operator">-</span>analysis<span class="token punctuation">]</span> Failed to resolve <span class="token keyword">import</span> <span class="token string">&quot;./todoList&quot;</span> <span class="token keyword">from</span> <span class="token string">&quot;src/pages/back-sky/components/header/index.vue&quot;</span><span class="token punctuation">.</span> Does the file exist<span class="token operator">?</span>
+<span class="token operator">/</span>components<span class="token operator">/</span>header<span class="token operator">/</span>index<span class="token punctuation">.</span>vue<span class="token operator">:</span><span class="token number">2</span><span class="token operator">:</span><span class="token number">23</span>
+<span class="token number">1</span>  <span class="token operator">|</span>  
+<span class="token number">2</span>  <span class="token operator">|</span>  <span class="token keyword">import</span> todoList <span class="token keyword">from</span> <span class="token string">'./todoList'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> todoList <span class="token keyword">from</span> <span class="token string">'./todoList.vue'</span><span class="token punctuation">;</span>
+</code></pre></div><p>最后我们来对比一下该项目两种构建方式时间的对比；</p> <p>Webpack 冷启动，耗时 7513ms：</p> <div class="language-bash extra-class"><pre class="language-bash"><code>⚠ ｢wdm｣: Hash: 1ad1dd54289cfad8ecbe
+Version: webpack <span class="token number">4.46</span>.0
+Time: 7513ms
+Built at: <span class="token number">2021</span>-05-24 <span class="token number">13</span>:59:35
+</code></pre></div><p>相同项目 Vite 冷启动，耗时 924ms：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token operator">&gt;</span> vite
+Pre-bundling dependencies:
+  vue
+  element-plus
+  @zcy/zcy-request
+  element-plus/lib/utils/dom
+<span class="token punctuation">(</span>this will be run only when your dependencies or config have changed<span class="token punctuation">)</span>
+  vite v2.3.3 dev server running at:
+  <span class="token operator">&gt;</span> Local: http://localhost:3000/
+  <span class="token operator">&gt;</span> Network: use <span class="token variable"><span class="token variable">`</span><span class="token parameter variable">--host</span><span class="token variable">`</span></span> to expose
+  ready <span class="token keyword">in</span> 924ms.
+</code></pre></div><p>二次启动（预编译的依赖已存在），耗时 407ms；</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token operator">&gt;</span> vite
+  vite v2.3.3 dev server running at:
+  <span class="token operator">&gt;</span> Local: http://localhost:3000/
+  <span class="token operator">&gt;</span> Network: use <span class="token variable"><span class="token variable">`</span><span class="token parameter variable">--host</span><span class="token variable">`</span></span> to expose
+  ready <span class="token keyword">in</span> 407ms.
+</code></pre></div><h3 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h3> <p>使用 Vite 进行本地服务启动和热更新都会有明显的提效，至于编译打包环节的差异点有哪些？效果如何？你们还踩过哪些坑？留言告诉我吧。</p> <p>推荐阅读：</p> <p><a href="https://dev.to/iggredible/what-the-heck-are-cjs-amd-umd-and-esm-ikm?fileGuid=DDr3GGh6QRvQgWQC" target="_blank" rel="noopener noreferrer">What are CJS, AMD, UMD, and ESM in Javascript?<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/engineering/3-npm/解读package.html" class="prev">
+        全方位解读 package.json
+      </a></span> <span class="next"><a href="/engineering/4-vite/Vite的好与坏.html">
+        Vite 的好与坏
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/30.b5a85a3d.js" defer></script>
+  </body>
+</html>

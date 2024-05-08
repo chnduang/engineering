@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Webpack 插件架构深度讲解 | duangdong的engineering</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/logo.png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0088ce24040b03f2947322ab31d23414";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+    <script>
+  var _hmt = _hmt || [];
+  _hmt.push(['_requirePlugin', 'UrlChangeTracker', {
+    shouldTrackUrlChange: function (newPath, oldPath) {
+      newPath = newPath.split('#')[0];
+      oldPath = oldPath.split('#')[0];
+      return newPath != oldPath;
+    }}
+  ]);
+  </script>
+    <meta name="description" content="前端相关知识归纳总结">
+    <meta name="keywords" content="qd-blog,node,vuepress,leetcode,algorithm">
+    
+    <link rel="preload" href="/assets/css/0.styles.b4a844ec.css" as="style"><link rel="preload" href="/assets/js/app.04fd048c.js" as="script"><link rel="preload" href="/assets/js/2.57da4f88.js" as="script"><link rel="preload" href="/assets/js/1.a76cc220.js" as="script"><link rel="preload" href="/assets/js/51.b83fa154.js" as="script"><link rel="prefetch" href="/assets/js/10.50f73657.js"><link rel="prefetch" href="/assets/js/11.0390ceee.js"><link rel="prefetch" href="/assets/js/12.f88bec36.js"><link rel="prefetch" href="/assets/js/13.963ad03b.js"><link rel="prefetch" href="/assets/js/14.512f15b9.js"><link rel="prefetch" href="/assets/js/15.a674496c.js"><link rel="prefetch" href="/assets/js/16.ed7e507f.js"><link rel="prefetch" href="/assets/js/17.de667ca5.js"><link rel="prefetch" href="/assets/js/18.b44e84af.js"><link rel="prefetch" href="/assets/js/19.5b5ad6a1.js"><link rel="prefetch" href="/assets/js/20.6800493a.js"><link rel="prefetch" href="/assets/js/21.6589052c.js"><link rel="prefetch" href="/assets/js/22.f648d829.js"><link rel="prefetch" href="/assets/js/23.d80486b4.js"><link rel="prefetch" href="/assets/js/24.d1ded971.js"><link rel="prefetch" href="/assets/js/25.2b5651f2.js"><link rel="prefetch" href="/assets/js/26.be0532f1.js"><link rel="prefetch" href="/assets/js/27.601e9758.js"><link rel="prefetch" href="/assets/js/28.5f3c5013.js"><link rel="prefetch" href="/assets/js/29.b11be3d0.js"><link rel="prefetch" href="/assets/js/3.13e892f5.js"><link rel="prefetch" href="/assets/js/30.b5a85a3d.js"><link rel="prefetch" href="/assets/js/31.656e3cca.js"><link rel="prefetch" href="/assets/js/32.df47284c.js"><link rel="prefetch" href="/assets/js/33.cf2bef7f.js"><link rel="prefetch" href="/assets/js/34.b76a28cc.js"><link rel="prefetch" href="/assets/js/35.4656aa60.js"><link rel="prefetch" href="/assets/js/36.bc0d7be9.js"><link rel="prefetch" href="/assets/js/37.41e22cc1.js"><link rel="prefetch" href="/assets/js/38.9a20d42b.js"><link rel="prefetch" href="/assets/js/39.5d96398a.js"><link rel="prefetch" href="/assets/js/4.5bdb9365.js"><link rel="prefetch" href="/assets/js/40.fb9028aa.js"><link rel="prefetch" href="/assets/js/41.96d148c1.js"><link rel="prefetch" href="/assets/js/42.26c75454.js"><link rel="prefetch" href="/assets/js/43.59ed847d.js"><link rel="prefetch" href="/assets/js/44.4c9bed25.js"><link rel="prefetch" href="/assets/js/45.547c992f.js"><link rel="prefetch" href="/assets/js/46.d63785ae.js"><link rel="prefetch" href="/assets/js/47.34a532a7.js"><link rel="prefetch" href="/assets/js/48.81fda019.js"><link rel="prefetch" href="/assets/js/49.3039c755.js"><link rel="prefetch" href="/assets/js/5.7c68fdb5.js"><link rel="prefetch" href="/assets/js/50.bd461786.js"><link rel="prefetch" href="/assets/js/52.6880a119.js"><link rel="prefetch" href="/assets/js/53.f60e17c7.js"><link rel="prefetch" href="/assets/js/54.833a4f5c.js"><link rel="prefetch" href="/assets/js/55.ed6a7c66.js"><link rel="prefetch" href="/assets/js/56.c9eef7e1.js"><link rel="prefetch" href="/assets/js/57.abbfb924.js"><link rel="prefetch" href="/assets/js/58.c1df5fda.js"><link rel="prefetch" href="/assets/js/59.1615eb2d.js"><link rel="prefetch" href="/assets/js/6.c8da7ca7.js"><link rel="prefetch" href="/assets/js/60.a1480688.js"><link rel="prefetch" href="/assets/js/61.901ae4d3.js"><link rel="prefetch" href="/assets/js/62.dc705c01.js"><link rel="prefetch" href="/assets/js/63.a3367f7e.js"><link rel="prefetch" href="/assets/js/64.44397e2a.js"><link rel="prefetch" href="/assets/js/65.b6f8a966.js"><link rel="prefetch" href="/assets/js/66.305bd539.js"><link rel="prefetch" href="/assets/js/67.b47bf615.js"><link rel="prefetch" href="/assets/js/68.63565465.js"><link rel="prefetch" href="/assets/js/69.141e956c.js"><link rel="prefetch" href="/assets/js/7.e4c88d0e.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5143d2e0.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.b4a844ec.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">duangdong的engineering</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/engineering/" class="nav-link">
+  工程化
+</a></div><div class="nav-item"><a href="/webpack/" class="nav-link router-link-active">
+  Webpack
+</a></div><div class="nav-item"><a href="/webpack-explain/" class="nav-link">
+  深入浅出Webpack
+</a></div><div class="nav-item"><a href="/babel/" class="nav-link">
+  Babel
+</a></div><div class="nav-item"><a href="/micro-front/" class="nav-link">
+  微前端
+</a></div><div class="nav-item"><a href="https://link.aduang.cn" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Home
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/webpack/" aria-current="page" class="sidebar-link">前端工程化</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>1-webpack原理</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/webpack/1-webpack原理/Webpack下的HMR机制原理.html" class="sidebar-link">Webpack 下的 HMR 机制原理: 120 行代码帮你搞定</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列一-一文吃透Webpack核心原理.html" class="sidebar-link">一文吃透 Webpack 核心原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列七-如何编写loader.html" class="sidebar-link">Webpack 原理系列七：如何编写loader</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列九-Tree-Shaking实现原理.html" class="sidebar-link">Webpack 原理系列九：Tree-Shaking实现原理</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列二-Webpack插件架构深度讲解.html" class="active sidebar-link">Webpack 插件架构深度讲解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列五-Webpack-Chunk分包规则详解.html" class="sidebar-link">有点难的知识点： Webpack Chunk 分包规则详解</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列八-产物转译打包逻辑.html" class="sidebar-link">Webpack 原理系列八：产物转译打包逻辑</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列六-彻底理解Webpack运行时.html" class="sidebar-link">Webpack 原理系列六： 彻底理解Webpack运行时</a></li><li><a href="/webpack/1-webpack原理/Webpack原理系列四-Dependency-Graph深度解析.html" class="sidebar-link">有点难的 webpack 知识点：Dependency Graph 深度解析</a></li><li><a href="/webpack/1-webpack原理/webpack原理系列-使用 Cache 提升构建性能.html" class="sidebar-link">Webpack 性能系列一: 使用 Cache 提升构建性能</a></li><li><a href="/webpack/1-webpack原理/webpack方方面面的核心原理总结.html" class="sidebar-link">webpack 方方面面的核心原理总结</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>2-webpack优化</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/webpack/Koa2中使用webpack进行打包压缩.html" class="sidebar-link">Koa2中使用webpack进行打包压缩</a></li><li><a href="/webpack/esbuild为什么这么快.html" class="sidebar-link">esbuild 为什么这么快?</a></li><li><a href="/webpack/module-issuer属性详解.html" class="sidebar-link">十分钟精进 Webpack：module.issuer 属性详解</a></li><li><a href="/webpack/webpack-node.html" class="sidebar-link">Node中使用webpack打包时出现的错误和警告</a></li><li><a href="/webpack/不要再看loader原理了，自己写一个就什么都明白了.html" class="sidebar-link">不要再看loader原理了，自己写一个就什么都明白了</a></li><li><a href="/webpack/分享几个Webpack实用分析工具.html" class="sidebar-link">分享几个 Webpack 实用分析工具</a></li><li><a href="/webpack/如何开发VSCode-LSP服务.html" class="sidebar-link">实例解析：如何开发 VSCode LSP 服务</a></li><li><a href="/webpack/如何调试Webpack问题.html" class="sidebar-link">我是如何调试 Webpack 问题的</a></li><li><a href="/webpack/手把手带你入门Webpack-Plugin.html" class="sidebar-link">手把手带你入门 Webpack Plugin</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="webpack-插件架构深度讲解"><a href="#webpack-插件架构深度讲解" class="header-anchor">#</a> Webpack 插件架构深度讲解</h1> <p>本文大部分篇幅都 focus 在 Tapable 框架，详细枚举了 Tapable 提供的钩子及各类型钩子的特点、运行逻辑、实现原理，并进一步讨论 Tapable 框架在 webpack 的作用，进而揭示 webpack 插件架构的核心逻辑。</p> <p>阅读本文，您将：</p> <ul><li>了解 webpack 插件架构的基本套路</li> <li>了解不同钩子的特点，及 webpack 为什么需要接入多种回调方案</li> <li>下次看 webpack 官方文档或源码时，可以仅仅通过钩子的类型名快速推断出钩子的作用</li></ul> <h1 id="简介"><a href="#简介" class="header-anchor">#</a> 简介</h1> <p>网上不少资料将 webpack 的插件架构归类为“事件/订阅”模式，我认为这种归纳有失偏颇。订阅模式是一种松耦合架构，发布器只是在特定时机发布事件消息，订阅者并不或者很少与事件直接发生交互，举例来说，我们平常在使用 HTML 事件的时候很多时候只是在这个时机触发业务逻辑，很少调用上下文操作。</p> <p>而 webpack 的插件体系是一种基于 Tapable 实现的强耦合架构，它在特定时机触发钩子时会附带上足够的上下文信息，插件定义的钩子回调中，能也只能与这些上下文背后的数据结构、接口交互产生 side effect，进而影响到编译状态和后续流程。</p> <p>本文将围绕 Tapable 展开，深入讲解 Tapable 的钩子类型、特点、分别以什么逻辑处理回调，在此基础上进一步推导出</p> <h1 id="什么是插件"><a href="#什么是插件" class="header-anchor">#</a> 什么是插件</h1> <p>从形态上看，插件通常是一个带有 apply 函数的类：</p> <div class="language- extra-class"><pre class="language-text"><code>class SomePlugin {
+    apply(compiler) {
+    }
+}
+</code></pre></div><p>Webpack 会在启动后按照注册的顺序逐次调用插件对象的 apply 函数，同时传入编译器对象 compiler ，插件开发者可以以此为起点触达到 webpack 内部定义的任意钩子，例如：</p> <div class="language- extra-class"><pre class="language-text"><code>class SomePlugin {
+    apply(compiler) {
+        compiler.hooks.thisCompilation.tap('SomePlugin', (compilation) =&gt; {
+        })
+    }
+}
+</code></pre></div><p>注意观察核心语句 <code>compiler.hooks.thisCompilation.tap</code>，其中 <code>thisCompilation</code> 为 tapable 仓库提供的钩子对象；<code>tap</code> 为订阅函数，用于注册回调。</p> <p>Webpack 的插件体系基于 tapable 提供的各类钩子展开，所以有必要先熟悉一下 tapable 提供的钩子类型及各自的特点。</p> <h1 id="tapable-全解析"><a href="#tapable-全解析" class="header-anchor">#</a> Tapable 全解析</h1> <p>Tapable 是 Webpack 插件架构的核心支架，但它的源码量其实很少，本质上就是围绕着 订阅/发布 模式叠加各种特化逻辑，适配 webpack 体系下复杂的事件源-处理器之间交互需求，比如说有些场景需要支持将前一个处理器的结果传入下一个回调处理器；有些场景需要支持异步并行调用这些回调处理器。</p> <p>要理解 webpack 的插件架构，必须先理顺 Tapable 提供了哪些类型的钩子，不同类型分别有什么特点，适配哪些应用场景，所幸这块逻辑并不复杂，我们展开来看看。</p> <h2 id="基本用法"><a href="#基本用法" class="header-anchor">#</a> 基本用法</h2> <p>Tapable 使用时通常需要经历如下步骤：</p> <ul><li>创建钩子实例</li> <li>调用订阅接口注册回调，包括：<code>tap、tapAsync、tapPromise</code></li> <li>调用发布接口触发回调，包括：<code>call、callAsync、promise</code></li></ul> <p>举个例子：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncHook } = require(&quot;tapable&quot;);
+
+// 1. 创建钩子实例
+const sleep = new SyncHook();
+
+// 2. 调用订阅接口注册回调
+sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback A&quot;);
+});
+
+// 3. 调用发布接口触发回调
+sleep.call();
+
+// 运行结果：
+// callback A
+</code></pre></div><p>示例中使用 <code>tap</code> 注册回调，使用 <code>call</code> 触发回调，在某些钩子中还可以使用异步风格的 <code>tapAsync/callAsync、promise</code> 风格 <code>tapPromise/promise</code>，具体使用哪一类函数与钩子类型有关。</p> <h2 id="tapable-钩子类型"><a href="#tapable-钩子类型" class="header-anchor">#</a> Tapable 钩子类型</h2> <p>Tabable 提供如下类型的钩子：</p> <table><thead><tr><th>名称</th> <th>简介</th> <th>统计</th></tr></thead> <tbody><tr><td>SyncHook</td> <td>同步钩子</td> <td>Webpack 共出现 71 次，如 Compiler.hooks.compilation</td></tr> <tr><td>SyncBailHook</td> <td>同步熔断钩子</td> <td>Webpack 共出现 66 次，如 Compiler.hooks.shouldEmit</td></tr> <tr><td>SyncWaterfallHook</td> <td>同步瀑布流钩子</td> <td>Webpack 共出现 37 次，如 Compilation.hooks.assetPath</td></tr> <tr><td>SyncLoopHook</td> <td>同步循环钩子</td> <td>Webpack 中未使用</td></tr> <tr><td>AsyncParallelHook</td> <td>异步并行钩子</td> <td>Webpack 仅出现 1 次：Compiler.hooks.make</td></tr> <tr><td>AsyncParallelBailHook</td> <td>异步并行熔断钩子</td> <td>Webpack 中未使用</td></tr> <tr><td>AsyncSeriesHook</td> <td>异步串行钩子</td> <td>Webpack 共出现 16 次，如 Compiler.hooks.done</td></tr> <tr><td>AsyncSeriesBailHook</td> <td>异步串行熔断钩子</td> <td>Webpack 中未使用</td></tr> <tr><td>AsyncSeriesLoopHook</td> <td>异步串行循环钩子</td> <td>Webpack 中未使用</td></tr> <tr><td>AsyncSeriesWaterfallHook</td> <td>异步串行瀑布流钩子</td> <td>Webpack 共出现 5 次，如 NormalModuleFactory.hooks.beforeResolve</td></tr></tbody></table> <p>看到上面的表格相信很多人都是懵的，其实 Tapable 仓库的 readme 对钩子分类依据讲的很清楚，总结下来两条规则：</p> <ul><li><p>按回调逻辑，分为：</p></li> <li><ul><li>基本类型，名称不带 <code>Waterfall/Bail/Loop</code> 关键字，与通常 <strong>「订阅/回调」</strong> 模式相似，按钩子注册顺序，逐次调用回调</li></ul></li> <li><p><code>waterfall</code> 类型：前一个回调的返回值会被带入下一个回调</p></li> <li><p><code>bail</code> 类型：逐次调用回调，若有任何一个回调返回非 <code>undefined</code> 值，则终止后续调用</p></li> <li><p><code>loop</code> 类型：逐次、循环调用，直到所有回调函数都返回 <code>undefined</code></p></li> <li><p>第二个维度，按执行回调的并行方式，分为：</p></li> <li><ul><li><code>async</code> ：异步执行，支持传入 <code>callback</code> 或 <code>promise</code> 风格的异步回调函数，支持 <code>callAsync/tapAsync</code> 、<code>promise/tapPromise</code> 两种调用语句</li> <li><code>sync</code> ：同步执行，启动后会按次序逐个执行回调，支持 <code>call/tap</code> 调用语句</li></ul></li></ul> <p>所有钩子都可以按名称套进这两条规则里面，对插件开发者来说不同类型的钩子会直接影响到回调函数的写法，以及插件与其他插件的互通关系，但是有一些基本能力、概念是通用的：<code>tap/call</code>、<code>intercept</code>、<code>context</code>、动态编译等。接下来按同步、异步维度考察每种钩子的特点。</p> <h2 id="同步钩子"><a href="#同步钩子" class="header-anchor">#</a> 同步钩子</h2> <h3 id="synchook-钩子"><a href="#synchook-钩子" class="header-anchor">#</a> <code>SyncHook</code> 钩子</h3> <h4 id="基本逻辑"><a href="#基本逻辑" class="header-anchor">#</a> 基本逻辑</h4> <p><code>SyncHook</code> 算的上是简单的钩子了，触发后会按照注册的顺序逐个调用回调，且不关心这些回调的返回值，逻辑上大致如：</p> <div class="language- extra-class"><pre class="language-text"><code>function syncCall() {
+  const callbacks = [fn1, fn2, fn3];
+  for (let i = 0; i &lt; callbacks.length; i++) {
+    const cb = callbacks[i];
+    cb();
+  }
+}
+</code></pre></div><h4 id="示例"><a href="#示例" class="header-anchor">#</a> 示例</h4> <div class="language- extra-class"><pre class="language-text"><code>const { SyncHook } = require(&quot;tapable&quot;);
+
+class Somebody {
+  constructor() {
+    this.hooks = {
+      sleep: new SyncHook(),
+    };
+  }
+  sleep() {
+    //   触发回调
+    this.hooks.sleep.call();
+  }
+}
+
+const person = new Somebody();
+
+// 注册回调
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback A&quot;);
+});
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback B&quot;);
+});
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback C&quot;);
+});
+
+person.sleep();
+// 输出结果：
+// callback A
+// callback B
+// callback C
+</code></pre></div><p>示例中，<code>Somebody</code> 初始化时声明了一个 <code>sleep</code> 钩子，并在后续调用 <code>sleep.tap</code> 函数连续注册三次回调，在调用 <code>person.sleep()</code> 语句触发 <code>sleep.call</code> 之后，tapable 会按照注册的先后按序执行三个回调。</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h4 id="异步风格"><a href="#异步风格" class="header-anchor">#</a> 异步风格</h4> <p>上述示例中，触发回调时用到了钩子的 <code>call</code> 函数，我们也可以选择异步风格的 <code>callAsync</code> ，选用 <code>call</code> 或 <code>callAsync</code> 并不会影响回调的执行逻辑：按注册顺序依次执行 + 忽略回调执行结果，两者唯一的区别是 <code>callAsync</code> 需要传入 <code>callback</code> 函数，用于处理回调队列可能抛出的异常：</p> <div class="language- extra-class"><pre class="language-text"><code>// call 风格
+try {
+  this.hooks.sleep.call();
+} catch (e) {
+    // 错误处理逻辑
+}
+// callAsync 风格
+this.hooks.sleep.callAsync((err) =&gt; {
+  if (err) {
+    // 错误处理逻辑
+  }
+});
+</code></pre></div><p>由于调用方式不会钩子本身的规则，所以对钩子的使用者来说无需关注提供者到底用的是 <code>call</code> 还是 <code>callAsync</code>，上面的例子只需要做简单的修改就可以适配 <code>callAsync</code> 场景：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncHook } = require(&quot;tapable&quot;);
+
+class Somebody {
+  constructor() {
+    this.hooks = {
+      sleep: new SyncHook(),
+    };
+  }
+  sleep() {
+    //   触发回调
+    this.hooks.sleep.callAsync((err) =&gt; {
+      if (err) {
+        console.log(`interrupt with &quot;${err.message}&quot;`);
+      }
+    });
+  }
+}
+
+const person = new Somebody();
+
+// 注册回调
+person.hooks.sleep.tap(&quot;test&quot;, (cb) =&gt; {
+  console.log(&quot;callback A&quot;);
+  throw new Error(&quot;我就是要报错&quot;);
+});
+// 第一个回调出错后，后续回调不会执行
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback B&quot;);
+});
+
+person.sleep();
+
+// 输出结果：
+// callback A
+// interrupt with &quot;我就是要报错&quot;
+</code></pre></div><h3 id="syncbailhook-钩子"><a href="#syncbailhook-钩子" class="header-anchor">#</a> <code>SyncBailHook</code> 钩子</h3> <h4 id="基本逻辑-2"><a href="#基本逻辑-2" class="header-anchor">#</a> 基本逻辑</h4> <p><code>bail</code> 单词有熔断的意思，而 <code>bail</code> 类型钩子的特点是在回调队列中，若任一回调返回了非 <code>undefined</code> 的值，则中断后续处理，直接返回该值，用一段伪代码来表示：</p> <div class="language- extra-class"><pre class="language-text"><code>function bailCall() {
+  const callbacks = [fn1, fn2, fn3];
+  for (let i in callbacks) {
+    const cb = callbacks[i];
+    const result = cb(lastResult);
+    if (result !== undefined) {
+      // 熔断
+      return result;
+    }
+  }
+  return undefined;
+}
+</code></pre></div><h4 id="示例-2"><a href="#示例-2" class="header-anchor">#</a> 示例</h4> <p><code>SyncBailHook</code> 的调用顺序与规则都跟 <code>SyncHook</code> 相似，主要区别一是 <code>SyncBailHook</code> 增加了熔断逻辑，例如：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncBailHook } = require(&quot;tapable&quot;);
+
+class Somebody {
+  constructor() {
+    this.hooks = {
+      sleep: new SyncBailHook(),
+    };
+  }
+  sleep() {
+    return this.hooks.sleep.call();
+  }
+}
+
+const person = new Somebody();
+
+// 注册回调
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback A&quot;);
+  // 熔断点
+  // 返回非 undefined 的任意值都会中断回调队列
+  return '返回值：tecvan'
+});
+person.hooks.sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback B&quot;);
+});
+
+console.log(person.sleep());
+
+// 运行结果：
+// callback A
+// 返回值：tecvan
+</code></pre></div><p>其次，相比于 <code>SyncHook</code> ，<code>SyncBailHook</code> 运行结束后，会将熔断值返回给call函数，例如上例第20行， <code>callback A</code> 返回的返回值：<code>tecvan</code> 会成为 <code>this.hooks.sleep.call</code> 的调用结果。</p> <h4 id="webpack-场景解析"><a href="#webpack-场景解析" class="header-anchor">#</a> Webpack 场景解析</h4> <p><code>SyncBailHook</code> 通常用在发布者需要关心订阅回调运行结果的场景， webpack 内部有99个地方用到这种钩子，举个例子： <code>compiler.hooks.shouldEmit</code>，对应的 <code>call</code> 语句：</p> <div class="language- extra-class"><pre class="language-text"><code>class Compiler {
+  run(callback) {
+    //   ...
+
+    const onCompiled = (err, compilation) =&gt; {
+      if (this.hooks.shouldEmit.call(compilation) === false) {
+        // ...
+      }
+    };
+  }
+}
+</code></pre></div><p>此处 webpack 会根据 <code>shouldEmit</code> 钩子的运行结果确定是否执行后续的操作，其它场景也有相似逻辑，如：</p> <ul><li><code>NormalModuleFactory.hooks.createModule</code> ：预期返回新建的 <code>module</code> 对象</li> <li><code>Compilation.hooks.needAdditionalSeal</code> ：预期返回 <code>bool</code> 值，判定是否进入 <code>unseal</code> 状态</li> <li><code>Compilation.hooks.optimizeModules</code> ：预期返回 <code>bool</code> 值，用于判定是否继续执行优化操作</li></ul> <h3 id="syncwaterfallhook-钩子"><a href="#syncwaterfallhook-钩子" class="header-anchor">#</a> SyncWaterfallHook 钩子</h3> <h4 id="基本逻辑-3"><a href="#基本逻辑-3" class="header-anchor">#</a> 基本逻辑</h4> <p><code>waterfall</code> 钩子的执行逻辑跟 lodash 的 <code>flow</code> 函数有点像，大致上就是会将前一个函数的返回值作为参数传入下一个函数，可以简化为如下代码：</p> <div class="language- extra-class"><pre class="language-text"><code>function waterfallCall(arg) {
+  const callbacks = [fn1, fn2, fn3];
+  let lastResult = arg;
+  for (let i in callbacks) {
+    const cb = callbacks[i];
+    // 上次执行结果作为参数传入下一个函数
+    lastResult = cb(lastResult);
+  }
+  return lastResult;
+}
+</code></pre></div><p>理解上述逻辑后，<code>SyncWaterfallHook</code> 的特点也就很明确了：</p> <ol><li>上一个函数的结果会被带入下一个函数</li> <li>最后一个回调的结果会作为 call 调用的结果返回</li></ol> <h4 id="示例-3"><a href="#示例-3" class="header-anchor">#</a> 示例</h4> <p>还是举例感受一下：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncWaterfallHook } = require(&quot;tapable&quot;);
+
+class Somebody {
+  constructor() {
+    this.hooks = {
+      sleep: new SyncWaterfallHook([&quot;msg&quot;]),
+    };
+  }
+  sleep() {
+    return this.hooks.sleep.call(&quot;hello&quot;);
+  }
+}
+
+const person = new Somebody();
+
+// 注册回调
+person.hooks.sleep.tap(&quot;test&quot;, (arg) =&gt; {
+  console.log(`call 调用传入： ${arg}`);
+  return &quot;tecvan&quot;;
+});
+
+person.hooks.sleep.tap(&quot;test&quot;, (arg) =&gt; {
+  console.log(`A 回调返回： ${arg}`);
+  return &quot;world&quot;;
+});
+
+console.log(&quot;最终结果：&quot; + person.sleep());
+// 运行结果：
+// call 调用传入： hello
+// A 回调返回： tecvan
+// 最终结果：world
+</code></pre></div><p>示例中，<code>sleep</code> 钩子为 <code>SyncWaterfallHook</code> 类型，之后注册了两个回调，从处理结果可以看到第一个回调收到的 <code>arg = hello</code> ，即第10行 <code>call</code> 调用时传入的参数；第二个回调收到的是第一个回调返回的结果 <code>tecvan</code>；之后 <code>call</code> 调用返回的是第二个回调的结果 <code>world</code> 。</p> <p>使用上，<code>SyncWaterfallHook</code> 钩子有一些注意事项：</p> <ul><li>初始化时必须提供参数，例如上例 <code>new SyncWaterfallHook([&quot;msg&quot;])</code> 构造函数中必须传入参数 <code>[&quot;msg&quot;]</code> ，用于动态编译 <code>call</code> 的参数依赖，后面会讲到**「动态编译」**的细节。</li> <li>发布调用 <code>call</code> 时，需要传入初始参数</li></ul> <h4 id="webpack-场景解析-2"><a href="#webpack-场景解析-2" class="header-anchor">#</a> Webpack 场景解析</h4> <p><code>SyncWaterfallHook</code> 在 webpack 中总共出现了55次，其中比较有代表性的例子是 <code>NormalModuleFactory.hooks.factory</code> ，在 webpack 内部实现中，会在这个钩子内根据资源类型 <code>resolve</code> 出对应的 <code>module</code> 对象：</p> <div class="language- extra-class"><pre class="language-text"><code>class NormalModuleFactory {
+  constructor() {
+    this.hooks = {
+      factory: new SyncWaterfallHook([&quot;filename&quot;, &quot;data&quot;]),
+    };
+
+    this.hooks.factory.tap(&quot;NormalModuleFactory&quot;, () =&gt; (result, callback) =&gt; {
+      let resolver = this.hooks.resolver.call(null);
+
+      if (!resolver) return callback();
+
+      resolver(result, (err, data) =&gt; {
+        if (err) return callback(err);
+
+        // direct module
+        if (typeof data.source === &quot;function&quot;) return callback(null, data);
+
+        // ...
+      });
+    });
+  }
+
+  create(data, callback) {
+    //   ...
+    const factory = this.hooks.factory.call(null);
+    // ...
+  }
+}
+</code></pre></div><p>大致上就是在创建模块，通过 <code>factory</code> 钩子将 <code>module</code> 的创建过程外包出去，在钩子回调队列中依据 <code>waterfall</code> 的特性逐步推断出最终的 <code>module</code> 对象。</p> <h3 id="syncloophook-钩子"><a href="#syncloophook-钩子" class="header-anchor">#</a> <code>SyncLoopHook</code> 钩子</h3> <h4 id="基本逻辑-4"><a href="#基本逻辑-4" class="header-anchor">#</a> 基本逻辑</h4> <p><code>loop</code> 型钩子的特点是循环执行直到所有回调都返回 <code>undefined</code> ，不过这里循环的维度是单个回调函数，例如有回调队列 <code>[fn1, fn2, fn3]</code> ，<code>loop</code> 钩子先执行 <code>fn1</code> ，如果此时 <code>fn1</code> 返回了非 <code>undefined</code> 值，则继续执行 <code>fn1</code> 直到返回 <code>undefined</code> 后才向前推进执行 <code>fn2</code> 。伪代码：</p> <div class="language- extra-class"><pre class="language-text"><code>function loopCall() {
+  const callbacks = [fn1, fn2, fn3];
+  for (let i in callbacks) {
+    const cb = callbacks[i];
+    // 重复执行
+    while (cb() !== undefined) {}
+  }
+}
+</code></pre></div><h4 id="示例-4"><a href="#示例-4" class="header-anchor">#</a> 示例</h4> <p>由于 <code>loop</code> 钩子循环执行的特性，使用时务必十分注意，避免陷入死循环。示例：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncLoopHook } = require(&quot;tapable&quot;);
+
+class Somebody {
+  constructor() {
+    this.hooks = {
+      sleep: new SyncLoopHook(),
+    };
+  }
+  sleep() {
+    return this.hooks.sleep.call();
+  }
+}
+
+const person = new Somebody();
+let times = 0;
+
+// 注册回调
+person.hooks.sleep.tap(&quot;test&quot;, (arg) =&gt; {
+  ++times;
+  console.log(`第 ${times} 次执行回调A`);
+  if (times &lt; 4) {
+    return times;
+  }
+});
+
+person.hooks.sleep.tap(&quot;test&quot;, (arg) =&gt; {
+  console.log(`执行回调B`);
+});
+
+person.sleep();
+// 运行结果
+// 第 1 次执行回调A
+// 第 2 次执行回调A
+// 第 3 次执行回调A
+// 第 4 次执行回调A
+// 执行回调B
+</code></pre></div><p>可以看到示例中一直在执行回调 A，直到满足判定条件 <code>times &gt;= 4</code> ，A 返回 <code>undefined</code> 后，才开始执行回调B。</p> <p>虽然 Tapable 提供了 <code>SyncLoopHook</code> 钩子，但 webpack 源码中并没有使用到，所以读者理解用法就行，不用深究。</p> <h2 id="异步钩子"><a href="#异步钩子" class="header-anchor">#</a> 异步钩子</h2> <p>前面说的 <code>Sync</code> 开头的都是同步风格的钩子，优点是执行顺序相对简单，回调之前依次执行，缺点是不能在回调中执行异步操作。除了同步钩子外，Tapable 还提供了一系列 <code>Async</code>开头的异步钩子，支持在回调函数中执行异步操作，逻辑比较复杂。</p> <h3 id="asyncserieshook-钩子"><a href="#asyncserieshook-钩子" class="header-anchor">#</a> <code>AsyncSeriesHook</code> 钩子</h3> <h4 id="基本逻辑-5"><a href="#基本逻辑-5" class="header-anchor">#</a> 基本逻辑</h4> <p><code>AsyncSeriesHook</code> 的特点：</p> <ul><li>支持异步回调，可以在回调函数中写 <code>callback</code> 或 <code>promise</code> 风格的异步操作</li> <li>回调队列依次执行，前一个执行结束后才会开始执行下一个</li> <li>与 <code>SyncHook</code> 一样，不关心回调的执行结果</li></ul> <p>用一段伪代码来表示：</p> <div class="language- extra-class"><pre class="language-text"><code>function asyncSeriesCall(callback) {
+  const callbacks = [fn1, fn2, fn3];
+  //   执行回调 1
+  fn1((err1) =&gt; {
+    if (err1) {
+      callback(err1);
+    } else {
+      //   执行回调 2
+      fn2((err2) =&gt; {
+        if (err2) {
+          callback(err2);
+        } else {
+          //   执行回调 3
+          fn3((err3) =&gt; {
+            if (err3) {
+              callback(err2);
+            }
+          });
+        }
+      });
+    }
+  });
+}
+</code></pre></div><h4 id="示例-5"><a href="#示例-5" class="header-anchor">#</a> 示例</h4> <p>先来看个 <code>callback</code> 风格的示例：</p> <div class="language- extra-class"><pre class="language-text"><code>const { AsyncSeriesHook } = require(&quot;tapable&quot;);
+
+const hook = new AsyncSeriesHook();
+
+// 注册回调
+hook.tapAsync(&quot;test&quot;, (cb) =&gt; {
+  console.log(&quot;callback A&quot;);
+  setTimeout(() =&gt; {
+    console.log(&quot;callback A 异步操作结束&quot;);
+    // 回调结束时，调用 cb 通知 tapable 当前回调已结束
+    cb();
+  }, 100);
+});
+
+hook.tapAsync(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback B&quot;);
+});
+
+hook.callAsync();
+// 运行结果：
+// callback A
+// callback A 异步操作结束
+// callback B
+</code></pre></div><p>从代码输出结果可以看出，A 回调内部的 <code>setTimeout</code> 执行完毕调用 <code>cb</code> 函数，tapable 才认为当前回调执行完毕，开始执行 B 回调。</p> <p>除了 <code>callback</code> 风格外，也可以使用 <code>promise</code> 风格调用 <code>tap/call</code> 函数，改造上例：</p> <div class="language- extra-class"><pre class="language-text"><code>const { AsyncSeriesHook } = require(&quot;tapable&quot;);
+
+const hook = new AsyncSeriesHook();
+
+// 注册回调
+hook.tapPromise(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback A&quot;);
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      console.log(&quot;callback A 异步操作结束&quot;);
+      resolve();
+    }, 100);
+  });
+});
+
+hook.tapPromise(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback B&quot;);
+  return Promise.resolve();
+});
+
+hook.promise();
+// 运行结果：
+// callback A
+// callback A 异步操作结束
+// callback B
+</code></pre></div><p>有三个改动点：</p> <ul><li>将 <code>tapAsync</code> 更改为 <code>tapPromise</code></li> <li><code>Tap</code> 回调需要返回 <code>promise</code> 对象，如上例第 8 行</li> <li><code>callAsync</code> 调用更改为 <code>promise</code></li></ul> <h4 id="webpack-场景分析"><a href="#webpack-场景分析" class="header-anchor">#</a> Webpack 场景分析</h4> <p><code>AsyncSeriesHook</code> 钩子在 webpack 中总共出现了34次，相对来说都是一些比较容易理解的时机，比如在构建完毕后触发 <code>compiler.hooks.done</code> 钩子，用于通知单次构建已经结束：</p> <div class="language- extra-class"><pre class="language-text"><code>class Compiler {
+  run(callback) {
+    if (err) return finalCallback(err);
+
+    this.emitAssets(compilation, (err) =&gt; {
+      if (err) return finalCallback(err);
+
+      if (compilation.hooks.needAdditionalPass.call()) {
+        // ...
+        this.hooks.done.callAsync(stats, (err) =&gt; {
+          if (err) return finalCallback(err);
+
+          this.hooks.additionalPass.callAsync((err) =&gt; {
+            if (err) return finalCallback(err);
+            this.compile(onCompiled);
+          });
+        });
+        return;
+      }
+
+      this.emitRecords((err) =&gt; {
+        if (err) return finalCallback(err);
+
+        // ...
+        this.hooks.done.callAsync(stats, (err) =&gt; {
+          if (err) return finalCallback(err);
+          return finalCallback(null, stats);
+        });
+      });
+    });
+  }
+}
+</code></pre></div><h3 id="asyncparallelhook-钩子"><a href="#asyncparallelhook-钩子" class="header-anchor">#</a> <code>AsyncParallelHook</code> 钩子</h3> <p>与 <code>AsyncSeriesHook</code> 类似，<code>AsyncParallelHook</code> 也支持异步风格的回调，不过 <code>AsyncParallelHook</code> 是以并行方式，同时执行回调队列里面的所有回调，逻辑上近似于：</p> <div class="language- extra-class"><pre class="language-text"><code>function asyncParallelCall(callback) {
+  const callbacks = [fn1, fn2];
+  // 内部维护了一个计数器
+  var _counter = 2;
+
+  var _done = function() {
+    _callback();
+  };
+  if (_counter &lt;= 0) return;
+  // 按序执行回调
+  var _fn0 = callbacks[0];
+  _fn0(function(_err0) {
+    if (_err0) {
+      if (_counter &gt; 0) {
+        // 出错时，忽略后续回调，直接退出
+        _callback(_err0);
+        _counter = 0;
+      }
+    } else {
+      if (--_counter === 0) _done();
+    }
+  });
+  if (_counter &lt;= 0) return;
+  // 不需要等待前面回调结束，直接开始执行下一个回调
+  var _fn1 = callbacks[1];
+  _fn1(function(_err1) {
+    if (_err1) {
+      if (_counter &gt; 0) {
+        _callback(_err1);
+        _counter = 0;
+      }
+    } else {
+      if (--_counter === 0) _done();
+    }
+  });
+}
+</code></pre></div><p><code>AsyncParallelHook</code> 钩子的特点：</p> <ul><li>支持异步风格</li> <li>并行执行回调队列，不需要做任何等待</li> <li>与 SyncHook 一样，不关心回调的执行结果</li></ul> <h3 id="其它"><a href="#其它" class="header-anchor">#</a> 其它</h3> <p>部分钩子类型在 tapable 定义，但在 webpack 中并没有用例，大致理解作用即可：</p> <ul><li><code>AsyncParallelBailHook</code> ：异步 + 并行 + 熔断，启动后同时执行所有回调，但任意回调有返回值时，忽略剩余未执行完的回调，直接返回该结果</li> <li><code>AsyncSeriesBailHook</code> ：异步 + 串行 + 熔断，启动后按序逐个执行回调，过程中若有任意回调返回非 undefined 值，则停止后续调用，直接返回该结果</li> <li><code>AsyncSeriesLoopHook</code>： 异步 + 串行 + 循环，启动后按序逐个执行回调，若有任意回调返回非 <code>undefined</code> 值，则重复执行该回调直到返回 <code>undefined</code> 后，才继续执行下一个回调</li></ul> <h2 id="动态编译"><a href="#动态编译" class="header-anchor">#</a> 动态编译</h2> <h3 id="基本逻辑-6"><a href="#基本逻辑-6" class="header-anchor">#</a> 基本逻辑</h3> <p>Tapable 最大的秘密就是其内部实现了一套非常大胆的设计：动态编译，所谓的同步、异步、bail、waterfall、loop 等回调规则都是基于动态编译能力实现的，所以要深入学习 tapable 必然绕不开动态编译特性。</p> <p>当用户执行钩子发布函数 <code>call/callAsync/promise</code> 时，tapable 会根据钩子类型、参数、回调队列等信息动态生成执行函数，例如对于下面的例子：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncHook } = require(&quot;tapable&quot;);
+
+const sleep = new SyncHook();
+
+sleep.tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback A&quot;);
+});
+sleep.call();
+</code></pre></div><p>调用 <code>sleep.call</code> 时，tapable 内部处理流程大致为：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>编译过程主要涉及三个实体：</p> <ul><li><code>tapable/lib/SyncHook.js</code> ：定义 <code>SyncHook</code> 的入口文件</li> <li><code>tapable/lib/Hook.js</code> ：<code>SyncHook</code> 只是一个简单接口，内部实际上调用了 <code>Hook</code> 类，由 <code>Hook</code> 实现钩子的逻辑 —— 其它钩子也是一样的套路</li> <li><code>tapable/lib/HookCodeFactory.js</code> ：动态编译出 <code>call、callAsync、promise</code> 函数内容的工厂类，注意，其他钩子也都会用到 <code>HookCodeFactory</code> 工厂函数。</li></ul> <p><code>SyncHook</code> (其他钩子类似) 调用 <code>call</code> 后，<code>Hook</code> 基类收集上下文信息并调用 <code>createCall</code> 及子类传入的 <code>compiler</code> 函数；<code>compiler</code> 调用 <code>HookCodeFactory</code> 进而使用 <code>new Function</code> 方法动态拼接出回调执行函数。上面例子对应的生成函数：</p> <div class="language- extra-class"><pre class="language-text"><code>(function anonymous() {
+&quot;use strict&quot;;
+var _context;
+var _x = this._x;
+var _fn0 = _x[0];
+_fn0();
+
+})
+</code></pre></div><h3 id="更复杂的例子"><a href="#更复杂的例子" class="header-anchor">#</a> 更复杂的例子</h3> <p>动态编译能力在一般场景下会存在诸如性能、安全性方面的问题，所以社区很少见到类似的设计。回到上面的例子，<code>SyncHook</code> 的回调逻辑其实很简单，真的有必要用到动态编译吗？我们来看一个更复杂的例子：</p> <div class="language- extra-class"><pre class="language-text"><code>const { AsyncSeriesWaterfallHook } = require(&quot;tapable&quot;);
+
+const sleep = new AsyncSeriesWaterfallHook([&quot;name&quot;]);
+
+sleep.tapAsync(&quot;test1&quot;, (name, cb) =&gt; {
+  console.log(`执行 A 回调： 参数 name=${name}`);
+  setTimeout(() =&gt; {
+    cb(undefined, &quot;tecvan2&quot;);
+  }, 100);
+});
+
+sleep.tapAsync(&quot;test&quot;, (name, cb) =&gt; {
+  console.log(`执行 B 回调： 参数 name=${name}`);
+  setTimeout(() =&gt; {
+    cb(undefined, &quot;tecvan3&quot;);
+  }, 100);
+});
+
+sleep.tapAsync(&quot;test&quot;, (name, cb) =&gt; {
+  console.log(`执行 C 回调： 参数 name=${name}`);
+  setTimeout(() =&gt; {
+    cb(undefined, &quot;tecvan4&quot;);
+  }, 100);
+});
+
+sleep.callAsync(&quot;tecvan&quot;, (err, name) =&gt; {
+  console.log(`回调结束， name=${name}`);
+});
+
+// 运行结果：
+// 执行 A 回调： 参数 name=tecvan
+// 执行 B 回调： 参数 name=tecvan2
+// 执行 C 回调： 参数 name=tecvan3
+// 回调结束， name=tecvan4
+</code></pre></div><p>示例用到 <code>AsyncSeriesWaterfallHook</code>，这个钩子的特点是异步 + 串行 + 前一个回调的返回值会传入下一个回调，对应生成函数：</p> <div class="language- extra-class"><pre class="language-text"><code>(function anonymous(name, _callback) {
+  &quot;use strict&quot;;
+  var _context;
+  var _x = this._x;
+  function _next1() {
+    var _fn2 = _x[2];
+    _fn2(name, function(_err2, _result2) {
+      if (_err2) {
+        _callback(_err2);
+      } else {
+        if (_result2 !== undefined) {
+          name = _result2;
+        }
+        _callback(null, name);
+      }
+    });
+  }
+  function _next0() {
+    var _fn1 = _x[1];
+    _fn1(name, function(_err1, _result1) {
+      if (_err1) {
+        _callback(_err1);
+      } else {
+        if (_result1 !== undefined) {
+          name = _result1;
+        }
+        _next1();
+      }
+    });
+  }
+  var _fn0 = _x[0];
+  _fn0(name, function(_err0, _result0) {
+    if (_err0) {
+      _callback(_err0);
+    } else {
+      if (_result0 !== undefined) {
+        name = _result0;
+      }
+      _next0();
+    }
+  });
+});
+</code></pre></div><p>这段生成函数有几个特点：</p> <ul><li>生成函数将回调队列各个项封装为 <code>_next0/_next1</code> 函数，这些 <code>next</code> 函数内在逻辑高度相似</li> <li>按回调定义的顺序，逐次执行，上一个回调结束后，才调用下一个回调，例如生成代码中的第39行、27行</li></ul> <p>相对于用递归、循环之类的手段实现 <code>AsyncSeriesWaterfallHook</code> ，这段生成函数逻辑确实会更清晰，更容易理解。</p> <p>Tapable 提供的大多数特性都是基于 <code>Hook + HookCodeFactory</code> 实现的，如果读者对此有兴趣，可以在 <code>tapable/lib/Hook.js</code> 的 <code>CALL\_DELEGATE/CALL\_ASYNC\_DELEGATE/PROMISE\_DELEGATE</code> 几个函数打断点：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <p>之后，通过 ndb 命令断点调试，查看发布动作动态编译出的代码：</p> <p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片"></p> <h2 id="高级特性-intercept"><a href="#高级特性-intercept" class="header-anchor">#</a> 高级特性：Intercept</h2> <p>除了通常的 <code>tap/call</code> 之外，tapable 还提供了简易的中间件机制 —— <code>intercept</code> 接口，例如</p> <div class="language- extra-class"><pre class="language-text"><code>const sleep = new SyncHook();
+
+sleep.intercept({
+  name: &quot;test&quot;,
+  context: true,
+  call() {
+    console.log(&quot;before call&quot;);
+  },
+  loop(){
+    console.log(&quot;before loop&quot;);
+  },
+  tap() {
+    console.log(&quot;before each callback&quot;);
+  },
+  register() {
+    console.log(&quot;every time call tap&quot;);
+  },
+});
+</code></pre></div><p><code>intercept</code> 支持注册如下类型的中间件：</p> <table><thead><tr><th></th> <th>签名</th> <th>解释</th></tr></thead> <tbody><tr><td>call</td> <td>(...args) =&gt; void</td> <td>调用 call/callAsync/promise 时触发</td></tr> <tr><td>tap</td> <td>(tap: Tap) =&gt; void</td> <td>调用 call 类函数后，每次调用回调之前触发</td></tr> <tr><td>loop</td> <td>(...args) =&gt; void</td> <td>仅 loop 型的钩子有效，在循环开始之前触发</td></tr> <tr><td>register</td> <td>(tap: Tap) =&gt; Tap | undefined</td> <td>调用 tap/tapAsync/tapPromise 时触发</td></tr></tbody></table> <p>其中 <code>register</code> 在每次调用 tap 时被调用；其他三种中间件的触发时机大致如：</p> <div class="language- extra-class"><pre class="language-text"><code>  var _context;
+  const callbacks = [fn1, fn2];
+  var _interceptors = this.interceptors;
+  // 调用 call 函数，立即触发
+  _interceptors.forEach((intercept) =&gt; intercept.call(_context));
+  var _loop;
+  var cursor = 0;
+  do {
+    _loop = false;
+    // 每次循环开始时触发 `loop`
+    _interceptors.forEach((intercept) =&gt; intercept.loop(_context));
+    // 触发 `tap`
+    var _fn0 = callbacks[0];
+    _interceptors.forEach((intercept) =&gt; intercept.tap(_context, _fn0));
+    var _result0 = _fn0();
+    if (_result0 !== undefined) {
+      _loop = true;
+    } else {
+      var _fn1 = callbacks[1];
+      // 再次触发 `tap`
+      _interceptors.forEach((intercept) =&gt; intercept.tap(_context, _fn1));
+      var _result1 = _fn1();
+      if (_result1 !== undefined) {
+        _loop = true;
+      }
+    }
+  } while (_loop);
+</code></pre></div><p><code>intercept</code> 特性在 webpack 内主要被用作进度提示，如 <code>webpack/lib/ProgressPlugin</code> 插件中，分别对 <code>compiler.hooks.emit</code> 、<code>compiler.hooks.afterEmit</code>钩子应用了记录进度的中间件函数。其他类型的插件应用较少。</p> <h2 id="高级特性-hookmap"><a href="#高级特性-hookmap" class="header-anchor">#</a> 高级特性：HookMap</h2> <p>Tapable 还有一个特性值得注意的特性 —— <code>HookMap</code> 。<code>HookMap</code> 提供了一种集合操作能力，能够降低创建与使用的复杂度，用法比较简单：</p> <div class="language- extra-class"><pre class="language-text"><code>const { SyncHook, HookMap } = require(&quot;tapable&quot;);
+
+const sleep = new HookMap(() =&gt; new SyncHook());
+
+// 通过 for 函数过滤集合中的特定钩子
+sleep.for(&quot;statement&quot;).tap(&quot;test&quot;, () =&gt; {
+  console.log(&quot;callback for statement&quot;);
+});
+
+// 触发 statement 类型的钩子
+sleep.get(&quot;statement&quot;).call();
+</code></pre></div><p>在 webpack 中，HookMap 集中在 <code>webpack/lib/parser.js</code> 文件中，<code>parser</code> 文件主要完成将资源内容解析为 AST 集合，解析完成后遍历 AST 并以钩子方式对外通知遍历到的内容。例如遇到表达式的时候触发 <code>Parser.hooks.expression</code> 钩子，问题是 AST 结构和内容都很复杂，如果所有情景都以独立的钩子实现，那代码量工作量会急剧膨胀。</p> <p>这种场景就很适合用 <code>HookMap</code> 解决，以 <code>expression</code> 为例：</p> <div class="language- extra-class"><pre class="language-text"><code>class Parser {
+  constructor() {
+    this.hooks = {
+      // 定义钩子
+      // 这里用到 HookMap ，所以不需要提前遍历枚举所有 expression 场景
+      expression: new HookMap(() =&gt; new SyncBailHook([&quot;expression&quot;])),
+    };
+  }
+
+  //   不同场景下触发钩子
+  walkMemberExpression(expression) {
+    const exprName = this.getNameForExpression(expression);
+    if (exprName &amp;&amp; exprName.free) {
+      // 触发特定类型的钩子
+      const expressionHook = this.hooks.expression.get(exprName.name);
+      if (expressionHook !== undefined) {
+        const result = expressionHook.call(expression);
+        if (result === true) return;
+      }
+    }
+    // ...
+  }
+
+  walkThisExpression(expression) {
+    const expressionHook = this.hooks.expression.get(&quot;this&quot;);
+    if (expressionHook !== undefined) {
+      expressionHook.call(expression);
+    }
+  }
+}
+
+// 钩子消费逻辑
+// 选取 CommonJsStuffPlugin 仅起示例作用
+class CommonJsStuffPlugin {
+  apply(compiler) {
+    compiler.hooks.compilation.tap(
+      &quot;CommonJsStuffPlugin&quot;,
+      (compilation, { normalModuleFactory }) =&gt; {
+        const handler = (parser, parserOptions) =&gt; {
+          // 通过 for 精确消费钩子
+          parser.hooks.expression
+            .for(&quot;require.main.require&quot;)
+            .tap(
+              &quot;CommonJsStuffPlugin&quot;,
+              ParserHelpers.expressionIsUnsupported(
+                parser,
+                &quot;require.main.require is not supported by webpack.&quot;
+              )
+            );
+          parser.hooks.expression
+            .for(&quot;module.parent.require&quot;)
+            .tap(
+              &quot;CommonJsStuffPlugin&quot;,
+              ParserHelpers.expressionIsUnsupported(
+                parser,
+                &quot;module.parent.require is not supported by webpack.&quot;
+              )
+            );
+          parser.hooks.expression
+            .for(&quot;require.main&quot;)
+            .tap(
+              &quot;CommonJsStuffPlugin&quot;,
+              ParserHelpers.toConstantDependencyWithWebpackRequire(
+                parser,
+                &quot;__webpack_require__.c[__webpack_require__.s]&quot;
+              )
+            );
+          // ...
+        };
+      }
+    );
+  }
+}
+</code></pre></div><h1 id="webpack-插件架构"><a href="#webpack-插件架构" class="header-anchor">#</a> Webpack 插件架构</h1> <p>上面内容围绕 tapable 展开，着重介绍各种钩子类型的运行机理、特点、交互等，在理解这些内容之后，我们可以继续往前推导，聊聊 webpack 插件架构的核心设计。</p> <p>前端社区里很多有名的框架都各自有一套插件架构，例如 axios、quill、vscode、webpack、vue、rollup 等等。插件架构灵活性高，扩展性强，但是通常需要非常强的架构能力，需要至少解决三个方面的问题：</p> <ul><li><strong>「接口」</strong>：需要提供一套逻辑接入方法，让开发者能够将逻辑在特定时机插入特定位置</li> <li><strong>「输入」</strong>：如何将上下文信息高效传导给插件</li> <li><strong>「输出」</strong>：插件内部通过何种方式影响整套运行体系</li></ul> <p>针对这些问题，webpack 为开发者提供了基于 tapable 钩子的插件方案：</p> <ol><li>编译过程的特定节点以钩子形式，通知插件此刻正在发生什么事情；</li> <li>通过 tapable 提供的回调机制，以参数方式传递上下文信息；</li> <li>在上下文参数对象中附带了很多存在 side effect 的交互接口，插件可以通过这些接口改变</li></ol> <p>这一切实现都离不开 tapable，例如：</p> <div class="language- extra-class"><pre class="language-text"><code>class Compiler {
+  // 在构造函数中，先初始化钩子对象
+  constructor() {
+    this.hooks = {
+      thisCompilation: new SyncHook([&quot;compilation&quot;, &quot;params&quot;]),
+    };
+  }
+
+  compile() {
+    // 特定时机触发特定钩子
+    const compilation = new Compilation();
+    this.hooks.thisCompilation.call(compilation);
+  }
+}
+</code></pre></div><p><code>Compiler</code> 类型内部定义了 <code>thisCompilation</code> 钩子，并在 <code>compilation</code> 创建完毕后发布事件消息，插件开发者就可以基于这个钩子获取到最新创建出的 <code>compilation</code> 对象：</p> <div class="language- extra-class"><pre class="language-text"><code>class SomePlugin {
+  apply(compiler) {
+    compiler.hooks.thisCompilation.tap(&quot;SomePlugin&quot;, (compilation, params) =&gt; {
+        // 上下文信息： compilation、params
+    });
+  }
+}
+</code></pre></div><p>钩子回调传递的 <code>compilation/params</code> 参数就是 webpack 希望传递给插件的上下文信息，也是插件能拿到的输入。不同钩子会传递不同的上下文对象，这一点在钩子被创建的时候就定下来了，比如：</p> <div class="language- extra-class"><pre class="language-text"><code>class Compiler {
+    constructor() {
+        this.hooks = {
+            /** @type {SyncBailHook&lt;Compilation&gt;} */
+            shouldEmit: new SyncBailHook([&quot;compilation&quot;]),
+            /** @type {AsyncSeriesHook&lt;Stats&gt;} */
+            done: new AsyncSeriesHook([&quot;stats&quot;]),
+            /** @type {AsyncSeriesHook&lt;&gt;} */
+            additionalPass: new AsyncSeriesHook([]),
+            /** @type {AsyncSeriesHook&lt;Compiler&gt;} */
+            beforeRun: new AsyncSeriesHook([&quot;compiler&quot;]),
+            /** @type {AsyncSeriesHook&lt;Compiler&gt;} */
+            run: new AsyncSeriesHook([&quot;compiler&quot;]),
+            /** @type {AsyncSeriesHook&lt;Compilation&gt;} */
+            emit: new AsyncSeriesHook([&quot;compilation&quot;]),
+            /** @type {AsyncSeriesHook&lt;string, Buffer&gt;} */
+            assetEmitted: new AsyncSeriesHook([&quot;file&quot;, &quot;content&quot;]),
+            /** @type {AsyncSeriesHook&lt;Compilation&gt;} */
+            afterEmit: new AsyncSeriesHook([&quot;compilation&quot;]),
+        };
+    }
+}
+</code></pre></div><ul><li><code>shouldEmit</code> 会被传入 <code>compilation</code> 参数</li> <li><code>done</code> 会被传入 <code>stats</code> 参数</li> <li><code>addtionalPass</code> 没有参数</li> <li>...</li></ul> <p>常见的参数对象有 <code>compilation/module/stats/compiler/file/chunks</code> 等，在钩子回调中可以通过改变这些对象的状态，影响 webpack 的编译逻辑。这些类型的含义、作用、接口都比较复杂，建议读者到 [<a href="http://mp.weixin.qq.com/s?__biz=Mzg3OTYwMjcxMA==&amp;mid=2247483744&amp;idx=1&amp;sn=d7128a76eed20746cd8c5100f0899138&amp;chksm=cf00bc19f877350f17844b283fa0f39daa111864aa69f0be8ce05d3809c51496da43de018a17&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">万字总结] 一文吃透 Webpack 核心原理<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 做进一步了解。</p> <h1 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h1> <p>Tapable 合计提供了 10 种钩子，支持同步、异步、熔断、循环、waterfall等功能特性，以此支撑起 webpack 复杂的编译功能。熟悉这10种钩子只是一个起点，能够让你在编写插件时迅速识别出回调函数的基本模式。</p> <p>除此之外你还需要了解学习更多 webpack 内置对象的功能、特点、接口等内容才能顺利编写出符合需求的插件，作者近期会一直 focus 在 webpack 领域，对此感兴趣的同学记得点击关注。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">5/8/2024, 3:01:19 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/webpack/1-webpack原理/Webpack原理系列九-Tree-Shaking实现原理.html" class="prev">
+        Webpack 原理系列九：Tree-Shaking实现原理
+      </a></span> <span class="next"><a href="/webpack/1-webpack原理/Webpack原理系列五-Webpack-Chunk分包规则详解.html">
+        有点难的知识点： Webpack Chunk 分包规则详解
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><!----></div></div>
+    <script src="/assets/js/app.04fd048c.js" defer></script><script src="/assets/js/2.57da4f88.js" defer></script><script src="/assets/js/1.a76cc220.js" defer></script><script src="/assets/js/51.b83fa154.js" defer></script>
+  </body>
+</html>
